@@ -1,0 +1,5 @@
+Start:
+pm2 start server.js --watch --ignore-watch="bilder node_modules" --log="debug.log"
+
+Stop:
+pm2 stop 0 --watch
