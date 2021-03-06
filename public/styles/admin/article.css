@@ -1,0 +1,464 @@
+button > * {
+    pointer-events: none;
+}
+
+.container {
+    display:flex;
+    margin:0 auto;
+    position: relative;
+    padding:0 1%;
+    justify-content: space-between;
+}
+
+.centerer {
+    max-width: 300px;
+    width: max(0px, calc(100vw - 1000px));
+}
+
+aside {
+    --aside-margin:25px;
+    --controls-height: 40px;
+    margin-top: var(--aside-margin);
+    width:300px;
+    height:calc(100vh - calc(var(--header-height) + calc(var(--aside-margin) * 2)));
+    position: sticky;
+    top:calc(var(--header-height) + var(--aside-margin));
+    left:0;
+    background: var(--clr-box);
+    box-shadow: var(--shadow);
+}
+
+.controls {
+    background: #eee;
+    height: var(--controls-height);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding:0 20px;
+}
+
+.controls button {
+    border:none;
+    background: none;
+    margin:0;
+    padding:0;
+    display: flex;
+    align-items: center;
+}
+
+.controls label {
+    opacity: 0;
+    transition: opacity .3s var(--cubic);
+}
+
+.controls label.visible {
+    opacity: 1;
+}
+
+.levels {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100% - var(--controls-height));
+    position: relative;
+}
+
+.levels::-webkit-scrollbar {
+    width: 8px;
+}
+
+.levels::-webkit-scrollbar-track {
+    background: #fff;
+}
+
+.levels::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.levels.transitioning::-webkit-scrollbar {
+    display:none;
+}
+
+.levels.transitioning {
+    scrollbar-width: none;
+}
+
+.sidebarLevel {
+    --translatey:0;
+    position: absolute;
+    top:calc(1px * var(--translatey));
+    left:0;
+    right:0;
+    transition: transform .3s var(--cubic);
+    min-height: 100%;
+    background: var(--clr-box);
+    text-align: left;
+    padding:20px;
+}
+
+.sidebarLevel.closed {
+    transform: translateX(100%);
+}
+
+.sidebarLevel.passed {
+    display: none;
+}
+
+.sidebarLevel h2 {
+    margin-top:0;
+}
+
+.sidebarLevel p {
+    margin:5px 0;
+}
+
+.sidebarLevel .inputRow {
+    margin: 10px 0;
+}
+
+.sidebarLevel .inputRow label {
+    display:block;
+}
+
+.sidebarLevel .inputRow input[type=text], .sidebarLevel .inputRow textarea, .sidebarLevel .inputRow select {
+    display: block;
+    width: 100%;
+    padding:5px 10px;
+    background:none;
+    border:2px solid #999;
+    border-radius: 4px;
+}
+
+.sidebarLevel .inputRow input[type=text] {
+    font-size: 16px;
+}
+
+.sidebarLevel .inputRow textarea {
+    resize: vertical;
+    text-align: left;
+}
+
+.sidebarLevel button.prim {
+    width: 100%;
+    padding: 10px 20px;
+    background: var(--clr-prim);
+    color:#fff;
+    font-weight: bold;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.sidebarLevel button.prim.column {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topLevel .acticleTags .tags button {
+    background: #f2f2f2;
+    border:none;
+    padding:4px 10px;
+    font-size:12px;
+    border-radius: 10px;
+    margin-top:5px;
+    cursor: pointer;
+}
+
+.topLevel .acticleTags .tags button:hover {
+    background: var(--clr-prim-2);
+    color:#fff;
+}
+
+.topLevel .acticleTags .tags button:hover::after {
+    content:'x';
+    font-weight:bold;
+}
+
+.topLevel .acticleTags > input {
+    margin-top:10px;
+}
+
+.topLevel .acticleTags > button {
+    margin-top:5px;
+}
+
+.topLevel .coverImagePreview {
+    width:100%;
+    display: block;
+    margin-top:10px;
+}
+
+.topLevel .startEditing {
+    margin-top:50px;
+}
+
+.topLevel .save {
+    margin-top:50px;
+}
+
+.topLevel .save h3 {
+    margin-top:0;
+    margin-bottom: 7px;
+}
+
+.topLevel .save .inputRow {
+    display: flex;
+}
+
+.topLevel .save .inputRow input {
+    margin-right: 20px;
+}
+
+.topLevel .saveButton {
+    margin-top: 30px;
+}
+
+.topLevel .saveButtonAndLeave {
+    margin-top:10px;
+}
+
+.topLevel .removeButton.prim {
+    margin-top: 10px;
+    background: var(--clr-prim-2);
+}
+
+.editorLevel .componentGrid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.editorLevel .component, .movingComponent {
+    width:calc(50% - 10px);
+    background: #fff;
+    box-shadow: var(--shadow);
+    border-radius:4px;
+    margin:5px 0;
+    display:flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding:10px;
+    cursor: pointer;
+}
+
+.editorLevel .component:nth-of-type(odd) {
+    margin-right:10px;
+}
+
+.editorLevel .component:nth-of-type(even) {
+    margin-left:10px;
+}
+
+.editorLevel .component svg, .movingComponent svg {
+    pointer-events: none;
+    user-select: none;
+}
+
+.editorLevel .component h3, .movingComponent h3 {
+    margin-top:5px;
+    margin-bottom: 0;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Compontent editors */
+.paragraphEditor button, .imageEditor button {
+    margin:10px 0;
+}
+
+.paragraphEditor > button {
+    opacity: .7;
+    pointer-events: none;
+}
+
+.paragraphEditor button.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.paragraphEditor .linkInput {
+    display:none;
+}
+
+.paragraphEditor .linkInput.visible {
+    display:block;
+}
+
+/* Article Column */
+.articleCol {
+    text-align: center;
+    width:640px;
+    margin:0 20px 400px;
+}
+
+.movingComponent {
+    --xOffset:0;
+    --yOffset:0;
+    width:120px;
+    position: absolute;
+    top:calc(1px * var(--yOffset));
+    left:calc(1px * var(--xOffset));
+    transform: translate(-50%, -50%);
+    display: none;
+    pointer-events: none;
+    z-index: 10000000000;
+}
+
+.movingComponent.visible {
+    display: flex;
+}
+
+.visualEditor {
+    border:2px solid var(--clr-prim);
+    padding:20px;
+    position: relative;
+}
+
+.universalEditor {
+    display:none;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, calc(-100% + 5px));
+    z-index: 1000;
+    top:calc(1px * var(--yOffset));
+    background:var(--clr-prim);
+    padding:10px 10px 5px;
+    align-items: center;
+    border-radius: 6px 6px 0 0;
+    opacity: .9;
+}
+
+.universalEditor:hover {
+    opacity: 1;
+}
+
+.universalEditor.visible {
+    display:flex;
+}
+
+.universalEditor.visible button:hover > svg {
+    opacity: .6;
+}
+
+.universalEditor button {
+    background: none;
+    border:none;
+    cursor: pointer;
+    padding:0 15px;
+}
+
+.universalEditor button + button {
+    border-left:1px solid #fff
+}
+
+.article-content {
+    --yOffset:0;
+    min-height: 10px;
+    margin:0;
+    position: relative;
+}
+
+.article-content.showBar::before {
+    content:'';
+    position: absolute;
+    background: var(--clr-prim);
+    top: calc(1px * var(--yOffset));
+    left:0;
+    right: 0;
+    height: 10px;
+    border-radius: 10px;
+    transform: translateY(-50%);
+}
+
+.article-content.moving * {
+    pointer-events: none;
+}
+
+.article-content section.shrink {
+    transition:transform .5s var(--cubic);
+    transform: scale(.8);
+}
+
+.article-content section:hover {
+    box-shadow: 0 0 0 5px rgba(var(--clr-prim-rgb), .1);
+}
+
+.article-content section.selected {
+    box-shadow: 0 0 0 5px rgba(var(--clr-prim-rgb), .3);
+}
+
+.article-content section:not(.selected) {
+    cursor: pointer;
+}
+
+.article-content section:not(.selected) .h, .article-content section:not(.selected) p {
+    pointer-events: none;
+}
+
+.article-content section > *:focus {
+    outline:none;
+}
+
+.article-content section img {
+    pointer-events: none;
+}
+
+.article-content section iframe {
+    pointer-events: none;
+}
+
+/* Save popup */
+.savePopup {
+    display:none;
+}
+
+.savePopup.visible {
+    display:block;
+}
+
+.savePopup .backdrop {
+    position: fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background: rgba(0, 0, 0, .5);
+    z-index:10000000;
+}
+
+.savePopup .content {
+    width:300px;
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 8px;
+    z-index:10000000;
+    padding:30px 20px;
+}
+
+.savePopup .content h3 {
+    margin-top:0;
+}
+
+.savePopup .content button {
+    width: 100%;
+    padding: 10px 20px;
+    background: var(--clr-prim);
+    color:#fff;
+    font-weight: bold;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin:5px 0;
+}
+
+.savePopup .content button.leaveNoSave {
+    margin-top:50px;
+    background: var(--clr-prim-2);
+}

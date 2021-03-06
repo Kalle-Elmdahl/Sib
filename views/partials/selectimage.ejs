@@ -1,0 +1,45 @@
+<div class="selectImage">
+    <div class="selectImageOverlay"></div>
+    <div class="images">
+        <% images.forEach(image => { %>
+            <div class="image">
+                <img class="lazy" data-src="<%=productionUrl + image.compressed%>" alt="" data-compressed="<%=image.compressed%>" data-original="<%=image.original%>" data-photographer="<%=image.photographer%>">
+            </div>
+        <% }); %>
+    </div>
+</div>
+<script>
+    class SelectImage {
+        constructor(selected) {
+            this.selected = selected;
+            this.parent = document.querySelector('.selectImage')
+            this.eventListenerFuncktion = this.click.bind(this)
+            this.closeEvent = this.close.bind(this)
+        }
+
+        click(e) {
+            this.close()
+            this.selected({
+                original: e.target.dataset.original, 
+                photographer: e.target.dataset.photographer, 
+                compressed: e.target.dataset.original
+            })
+        }
+
+        open() {
+            document.querySelector('.selectImage').classList.toggle('visible')
+            document.querySelector('.selectImageOverlay').addEventListener('click', this.closeEvent)
+            document.querySelectorAll('.selectImage .images img').forEach(image => {
+                image.addEventListener('click', this.eventListenerFuncktion)
+            })
+        }
+
+        close() {
+            document.querySelectorAll('.selectImage .images img').forEach(image => {
+                image.removeEventListener('click', this.eventListenerFuncktion)
+            })
+            document.querySelector('.selectImage').classList.remove('visible')
+            document.querySelector('.selectImageOverlay').removeEventListener('click', this.closeEvent)
+        }
+    } 
+</script>

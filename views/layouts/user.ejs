@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/styles/style.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/resources/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/resources/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/resources/icons/favicon-16x16.png">
+    <link rel="manifest" href="/resources/icons/site.webmanifest">
+    <link rel="mask-icon" href="/resources/icons/safari-pinned-tab.svg" color="#98114c">
+    <link rel="shortcut icon" href="/resources/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#00aba9">
+    <meta name="msapplication-config" content="/resources/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <title><%=title%> | Sibiriska katten</title>
+    <% if(typeof styles !== "undefined") { %>
+        <% styles.forEach(style => { %>
+            <link rel="stylesheet" href="/styles/<%=style%>.css">
+        <%}) %>
+    <% } %>
+    <% if(typeof scripts !== "undefined") { %>
+        <% scripts.forEach(script => { %>
+            <script defer src="/scripts/<%=script%>.js"></script>
+        <% }) %>
+    <% } %>
+    <script defer src="/scripts/script.js"></script>
+
+    <meta name="application-name" content="SibiriskaKatten.se">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="date=no">
+    <meta name="format-detection" content="address=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="geo.region" content="sweden">
+
+    <% if(typeof SEO !== 'undefined') { %>
+        <meta name="keywords" content="<%=SEO.keywords%>">
+        
+        <meta property="og:image" content="<%=SEO.image%>">
+        <meta property="og:image:alt" content="A SibiriskaKatten.se image">
+        <meta name="twitter:image" content="<%=SEO.image%>">
+        <meta name="twitter:image:alt" content="A SibiriskaKatten.se image">
+        
+        <meta name="description" content="<%=SEO.description%>">
+        <meta name="og:description" content="<%=SEO.description%>">
+        <meta name="twitter:description" content="<%=SEO.description%>">
+    <% } else { %>
+        <meta name="keywords" content="sibiriskkatt,kattunge,köpa katt,köpa kattunge,uppfödare,avel,hälsa,HCM,bra katt,sibiriskakatter,sibirisk kattunge,allergi,kattallergi,allergivänlig katt,hälsa,katthälsa,friska katter,pälskling">
+        <meta name="description" content="SibiriskaKatten.se för dig som älskar sibirisk katt. Tips för att köpa sibirisk kattunge, hälsa, allergi och NY information om rasen. Vi uppdaterar regelbundet med nya projekt. Finns också på Sibirisk katt på FB.">
+        
+        <meta property="og:image" content="https://sibiriskakatten.se/katt2.jpg">
+        <meta property="og:image:alt" content="A SibiriskaKatten.se image">
+        <meta name="twitter:image" content="https://sibiriskakatten.se/katt2.jpg">
+        <meta name="twitter:image:alt" content="A SibiriskaKatten.se image">
+        
+        <meta name="og:description" content="SibiriskaKatten.se för dig som älskar sibirisk katt. Tips för att köpa sibirisk kattunge, hälsa, allergi och NY information om rasen. Vi uppdaterar regelbundet med nya projekt. Finns också på Sibirisk katt på FB.">
+        <meta name="twitter:description" content="SibiriskaKatten.se för dig som älskar sibirisk katt. Tips för att köpa sibirisk kattunge, hälsa, allergi och NY information om rasen. Vi uppdaterar regelbundet med nya projekt. Finns också på Sibirisk katt på FB.">
+    <% } %>
+        
+    <meta name="subject" content="Information om sibirisk katt">
+    <meta property="og:title" content="<%=title%> | Sibiriska katten">
+    <meta property="og:url" content="<%= url %>">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="SibiriskaKatten.se">
+    <meta property="og:locale" content="sv_SE">
+    <meta property="article:author" content="Anna Elmdahl">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:url" content="<%= url %>">
+    <meta name="twitter:title" content="<%=title%> | Sibiriska katten">
+    
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-172521921-1"></script>
+</head>
+<body>
+    <script>
+        window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-172521921-1');
+    </script>
+    <header>
+        <a href="/" class="LogoLink">
+            <img src="/resources/logo.svg" alt="Logo" width="20px" height="20px">
+            <h3>SibiriskaKatten.se</h3>
+        </a>
+        <input type="checkbox" class="navigationSwitch" id="navInput">
+        <label class="navDrop" for="navInput"></label>
+        <nav>
+            <a href="/">Hem</a>
+            <% categories.forEach(category => { %>
+                <div class="dropParent">
+                    <input type="checkbox" id="<%=category.link%>" class="dropCheck" tabindex="-1">
+                    <a href="/<%=category.link%>"><%=category.name%></a>
+                    <label for="<%=category.link%>" tabindex="0">
+                        <svg class="down" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none" opacity=".87"/><path d="M16.62 2.99c-.49-.49-1.28-.49-1.77 0L6.54 11.3c-.39.39-.39 1.02 0 1.41l8.31 8.31c.49.49 1.28.49 1.77 0s.49-1.28 0-1.77L9.38 12l7.25-7.25c.48-.48.48-1.28-.01-1.76z"/></svg>
+                    </label>
+                    <div class="dropDown">
+                        <% articleNames.forEach(articleName => { %>
+                            <% if(articleName.category === category.name) { %> 
+                                <a href="/<%=category.link%>/<%=articleName.link%>"><%=articleName.name%></a>
+                            <% } %>
+                        <% }) %>
+                    </div>
+                </div>
+            <% }) %>
+            <a href="/uppfodarlista">Uppfödarlista</a>
+        </nav>
+        <label class="navHamburger" for="navInput">
+            <div class="hamburger"></div>
+            <div class="hamburger-c"></div>
+        </label>
+    </header>
+    <% if(typeof messages !== "undefined") { %>
+        <%- include('../partials/informer', {messages: messages}); %>
+    <% } %>
+    
+    <div class="container">
+        <%- body %>
+    </div>
+    <%- include('../partials/footer'); %>
+</body>
+</html>

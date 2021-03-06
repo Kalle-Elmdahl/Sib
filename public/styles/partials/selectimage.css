@@ -1,0 +1,51 @@
+.selectImage {
+    display:none;
+}
+
+.selectImage.visible {
+    display:block;
+}
+
+.selectImageOverlay {
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .4);
+    z-index: 1000000;
+}
+
+.selectImage .images {
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000001;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    max-width: 880px;
+    width:90%;
+    max-height: 90%;
+    overflow-y: auto;
+    margin:0 auto;
+    background: #fff;
+}
+
+.selectImage .images .image {
+    width:200px;
+    height:200px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.selectImage .images .image:hover {
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.4);
+}
+
+.selectImage .images .image img {
+    width:100%;
+    height: 100%;
+    object-fit: cover;
+}

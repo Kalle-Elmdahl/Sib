@@ -1,0 +1,41 @@
+<footer>
+    <svg xmlns="http://www.w3.org/2000/svg" width="494.793" height="626.936" viewBox="0 0 494.793 626.936">
+        <g id="Group_1" data-name="Group 1" transform="translate(-55.307 -112.402)">
+            <g id="Component_1_1" data-name="Component 1 – 1" transform="translate(55.307 112.402)">
+                <path id="TR" d="M200.948,350.4h322.76c0,36.425-9.549,66.585-25.546,90.758C422.227,555.91,200.948,525.75,200.948,350.4Z" transform="translate(-37.778 -350.402)" fill="#555"/>
+                <path id="TL" d="M0,0H322.76c0,36.425-9.549,66.585-25.546,90.758C221.279,205.508,0,175.348,0,0Z" transform="translate(324.405 158.891) rotate(180)" fill="#555" opacity="0.803"/>
+                <path id="MR" d="M200.483,586.179S194.9,425.842,370.2,425.086L460.545,425s30.867-.494,54.383,22.8c0,0-19.849-9.877-38.666-8.125,0,0,36.119,1.744,49.13,26.041,0,0-11.443-5.091-22.829-4.491,0,0,29.7,2.922,37.6,49.443,0,0-6.387-10.258-14.768-13.893,0,0,21.238,16.724,9.359,57.45,0,0-3.865-15.575-14.135-35.172,0,0,10.76,32.081-5.375,66.374,0,0-1.28-18.654-9.267-44.166,0,0,6.858,40.822-9.84,74.156,0,0,1.269-21.439-.659-29.99,0,0-19.4,20.972-19.626,43.651,0,0-19.42-26.82-18.107-40.437,0,0-6.955,14.009-6.493,46.741a73.219,73.219,0,0,1-11.99-32.324,73.532,73.532,0,0,0,0,31.494s-18.649-24.04-21.815-49.921Z" transform="translate(-46.228 -233.744)" fill="#555"/>
+                <path id="ML" d="M0,0H322.6c0,37.085-9.544,67.791-25.533,92.4C221.169,209.23,0,178.524,0,0Z" transform="translate(1.951 191.252)" fill="#555" opacity="0.803"/>
+                <path id="B" d="M329.608,676.113c-32.5-11.979-93.464-30.254-190.093,59.943,0,0-11.318-159.094,132.817-191.213,0,0-20.164-13.46-44.675-4.731,50.207-80.619,127.248-23.468,209.384,13.676,67.863,30.69,140.892,41.646,144.92-33.656,81.94,43.018,73.215,204.188-68.626,219.831,0,0,23.485-9.805,36.968-52.576,0,0-102.968,122.645-289.717,8.837C260.585,696.224,274.728,678.74,329.608,676.113Z" transform="translate(-139.307 -117.676)" fill="#555"/>
+            </g>
+        </g>
+    </svg>
+    <div class="cols">
+
+        <div class="col">
+            <p>
+                SibiriskaKatten.se är för dig som älskar sibirisk katt. Tips för att köpa sibirisk kattunge, hälsa, allergi och <b>ny</b> information om rasen. Vi uppdaterar regelbundet med nya projekt. Finns också på Sibirisk katt på Facebook.
+            </p>
+        </div>
+        <div class="col">
+            <h4>Hitta</h4>
+            <div class="nav">
+                <a href="/">Hem</a>
+                <% categories.forEach(category => { %>
+                    <a href="/<%=category.link%>"><%=category.name%></a>
+                <% }) %>
+                <a href="/uppfodarlista">Uppfödarlista</a>
+            </div>
+            <form action="/search" method="get">
+                <label for="footerSearch"><h4>Sök</h4></label>
+                <div class="footerInput">
+                    <input type="search" name="query" id="footerSearch" autocomplete="off">
+                    <button type="submit">Sök</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</footer>
+<div class="footerCredit">
+    <span>Hemsidan är skapad av Kalle Elmdahl</span>
+</div>

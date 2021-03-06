@@ -1,0 +1,181 @@
+<%- include('../partials/selectimage', {images: images}); %>
+
+
+
+<aside class="sidebar">
+    <div class="controls">
+        <button class="backButton" id="backButton"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M14.71 15.88L10.83 12l3.88-3.88c.39-.39.39-1.02 0-1.41-.39-.39-1.02-.39-1.41 0L8.71 11.3c-.39.39-.39 1.02 0 1.41l4.59 4.59c.39.39 1.02.39 1.41 0 .38-.39.39-1.03 0-1.42z"/></svg></button>
+        <label class="backButtonLabel" for="backButton"></label>
+    </div>
+    <div class="levels">
+        <div class="topLevel sidebarLevel" data-level="1" data-title="Om artikeln">
+            <h2>Om artikeln</h2>
+            <form action="/administrera/update?model=article&id=<%=article._id%>" method="post" class="mainform">
+                <div class="acticleName inputRow">
+                    <label for="articleNameInput">Namn</label>
+                    <input type="text" name="name" class="articleNameInput" id="articleNameInput" value="<%=article.name%>">
+                    <input type="hidden" name="link" class="articleNameLinkInput" value="<%=article.link%>">
+                </div>
+                <div class="articleDescription inputRow">
+                    <label for="articleDescriptionInput">Beskrivning</label>
+                    <textarea name="description" type="text" class="articleDescriptionInput" id="articleDescriptionInput" rows="10"><%=article.description%></textarea>
+                </div>
+                <div class="articleCategory inputRow">
+                    <label for="articleCategoryInput">Kategori</label>
+                    <select name="category" class="articleCategoryInput" id="articleCategoryInput">
+                        <% categories.forEach(category => { %>
+                            <option value="<%= category.name %>" <%= article.category === category.name ? "selected" : ""%>><%= category.name %></option>
+                        <% }); %>
+                    </select>
+                    <input type="hidden" name="categoryLink" class="articleCategoryLinkInput" value="<%=article.categoryLink%>">
+                </div>
+                <div class="acticleTags inputRow">
+                    <label for="articleNameInput">Taggar</label>
+                    <div class="tags">
+                        <% article.tags.forEach(tag => { %>
+                            <button onclick="this.remove()">
+                                <span><%= tag %></span>
+                                <input type="hidden" name="tags[]" value="<%= tag %>">
+                            </button>
+                        <% }) %>
+                    </div>
+                    <input type="text" name="noInclude" class="addTagInput" placeholder="Taggnamn">
+                    <button class="prim addTag">Lägg till tagg</button>
+                </div>
+                <div class="articleCoverImage inputRow">
+                    <label for="articleCoverImageButton">Omslagsbild</label>
+                    <button type="button" class="articleCoverImageButton prim column" id="articleCoverImageButton"><span>Välj bild</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="18px" height="18px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M21 3H3C2 3 1 4 1 5v14c0 1.1.9 2 2 2h18c1 0 2-1 2-2V5c0-1-1-2-2-2zM5.63 16.19l2.49-3.2c.2-.25.58-.26.78-.01l2.1 2.53 3.1-3.99c.2-.26.6-.26.8.01l3.51 4.68c.25.33.01.8-.4.8H6.02c-.41-.01-.65-.49-.39-.82z"/></svg></button>
+                    <input type="text" name="image" class="coverImageInput" style="display: none;" value="<%=article.image%>">
+                    <img src="<%=article.image%>" class="coverImagePreview">
+                </div>
+    
+                <button type="button" data-targetclass=".editorLevel" class="startEditing prim column"><span>Bygg artikeln</span><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="#fff"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16.01 11H5c-.55 0-1 .45-1 1s.45 1 1 1h11.01v1.79c0 .45.54.67.85.35l2.78-2.79c.19-.2.19-.51 0-.71l-2.78-2.79c-.31-.32-.85-.09-.85.35V11z"/></svg></button>
+    
+                <div class="save">
+                    <h3>Spara Artikel</h3>
+                    <div class="articlePrivate inputRow">
+                        <input name="private" type="checkbox" id="articlePrivateInput" <%= article.private ? "checked" : ""%>>
+                        <label for="articlePrivateInput">Privat artikel</label>
+                    </div>
+    
+                    <div class="articleFrontPage inputRow">
+                        <input name="frontPage" type="checkbox" id="articleFrontPageInput" <%= article.frontPage ? "checked" : ""%>>
+                        <label for="articleFrontPageInput">Visa artikel på förstasidan</label>
+                    </div>
+                    
+                    <button type="button" class="saveButton prim"><%= update ? "Spara ändringar" : "Skapa Artikel"%></button>
+                    <button type="button" class="saveButtonAndLeave prim"><%= update ? "Spara ändringar och lämna" : "Skapa Artikel och lämna"%></button>
+                    <% if(update) { %>
+                        <button type="button" data-removelink="/administrera/artikelredigerare/removearticle/<%=article._id%>" class="removeButton prim">Ta bort artikel</button>
+                    <% } %>
+                </div>
+                <input type="text" name="date" style="display: none;" value="<%= article.date ? article.date : new Date().toISOString() %>">
+                <input type="text" name="lastmod" style="display: none;" value="<%= new Date().toISOString() %>">
+                <input type="text" name="content" class="articleContentInput" style="display: none;" value="<%= JSON.stringify(article.content) %>">
+                <input type="submit" class="SaveArticleSubmitButton" style="display: none;">
+            </form>
+        </div>
+
+        <div class="editorLevel sidebarLevel closed" data-parent=".topLevel" data-level="2" data-title="Bygg artikeln">
+            <h2>Bygg artikeln</h2>
+            <p>Dra komponenter till artikelytan</p>
+            <div class="componentGrid">
+                <div class="component" data-element="heading">
+                    <svg class="componentImageHeading" xmlns="http://www.w3.org/2000/svg" height="40" viewBox="0 0 24 24" width="40"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M5 5.5C5 6.33 5.67 7 6.5 7h4v10.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V7h4c.83 0 1.5-.67 1.5-1.5S18.33 4 17.5 4h-11C5.67 4 5 4.67 5 5.5z"/></svg>
+                    <h3>Heading</h3>
+                </div>
+                <div class="component" data-element="paragraph">
+                    <svg class="componentImageParagraph" xmlns="http://www.w3.org/2000/svg" height="40" viewBox="0 0 24 24" width="40"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14 15H4c-.55 0-1 .45-1 1s.45 1 1 1h10c.55 0 1-.45 1-1s-.45-1-1-1zm0-8H4c-.55 0-1 .45-1 1s.45 1 1 1h10c.55 0 1-.45 1-1s-.45-1-1-1zM4 13h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1zm0 8h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1zM3 4c0 .55.45 1 1 1h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1z"/></svg>
+                    <h3>Paragraph</h3>
+                </div>
+                <div class="component">
+                    <svg class="componentImageTable" xmlns="http://www.w3.org/2000/svg" height="40" viewBox="0 0 24 24" width="40"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M10 10.02h5V21h-5V10.02zM17 21h3c1.1 0 2-.9 2-2v-9h-5v11zm3-18H5c-1.1 0-2 .9-2 2v3h19V5c0-1.1-.9-2-2-2zM3 19c0 1.1.9 2 2 2h3V10H3v9z"/></svg>
+                    <h3>Table</h3>
+                </div>
+                <div class="component" data-element="image">
+                    <svg class="componentImageImage" xmlns="http://www.w3.org/2000/svg" height="40" viewBox="0 0 24 24" width="40"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.9 13.98l2.1 2.53 3.1-3.99c.2-.26.6-.26.8.01l3.51 4.68c.25.33.01.8-.4.8H6.02c-.42 0-.65-.48-.39-.81L8.12 14c.19-.26.57-.27.78-.02z"/></svg>
+                    <h3>Image</h3>
+                </div>
+                <div class="component" data-element="video">
+                    <svg class="componentImageVideo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="40" height="40"><g><path fill="#212121" class="st0" d="M180.3,53.4c-2-7.6-8-13.6-15.6-15.7C151,34,96,34,96,34s-55,0-68.8,3.7c-7.6,2-13.5,8-15.6,15.7C8,67.2,8,96,8,96s0,28.8,3.7,42.6c2,7.6,8,13.6,15.6,15.7C41,158,96,158,96,158s55,0,68.8-3.7c7.6-2,13.5-8,15.6-15.7C184,124.8,184,96,184,96S184,67.2,180.3,53.4z"/><polygon fill="#fff" class="st1" points="78,122.2 78,69.8 124,96"/></g></svg>
+                    <h3>Video</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="headingEditor sidebarLevel closed" data-parent=".editorLevel" data-level="3">
+            <h2>Redigera rubrik</h2>
+            <label for="headingSize">Storlek</label>
+            <input type="range" class="headingSize" id="headingSize" min="2" max="6">
+        </div>
+        
+        <div class="paragraphEditor sidebarLevel closed" data-parent=".editorLevel" data-level="3">
+            <h2>Redigera text</h2>
+            <button class="paragraphBold prim column"><span>Make selection Bold</span><svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 24 24" width="18"><path d="M0 0h24v24H0V0z" fill="none"/><path fill="#fff" d="M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H8c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h5.78c2.07 0 3.96-1.69 3.97-3.77.01-1.53-.85-2.84-2.15-3.44zM10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3v-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z"/></svg></button>
+            <button class="paragraphUnderline prim column"><span>Make selection Underlined</span><svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 24 24" width="18"><path d="M0 0h24v24H0V0z" fill="none"/><path fill="#fff" d="M12.79 16.95c3.03-.39 5.21-3.11 5.21-6.16V4.25C18 3.56 17.44 3 16.75 3s-1.25.56-1.25 1.25v6.65c0 1.67-1.13 3.19-2.77 3.52-2.25.47-4.23-1.25-4.23-3.42V4.25C8.5 3.56 7.94 3 7.25 3S6 3.56 6 4.25V11c0 3.57 3.13 6.42 6.79 5.95zM5 20c0 .55.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1H6c-.55 0-1 .45-1 1z"/></svg></button>
+            <button class="paragraphItalic prim column"><span>Make selection Italic</span><svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 24 24" width="18"><path d="M0 0h24v24H0V0z" fill="none"/><path fill="#fff" d="M10 5.5c0 .83.67 1.5 1.5 1.5h.71l-3.42 8H7.5c-.83 0-1.5.67-1.5 1.5S6.67 18 7.5 18h5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-.71l3.42-8h1.29c.83 0 1.5-.67 1.5-1.5S17.33 4 16.5 4h-5c-.83 0-1.5.67-1.5 1.5z"/></svg></button>
+            <button class="paragraphList prim column"><span>Make selection List</span><svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 24 24" width="18"><path fill="#fff" d="M4 13c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm0 4c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm0-8c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm4 4h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1s.45 1 1 1zm0 4h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1s.45 1 1 1zM7 8c0 .55.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1zm-3 5c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm0 4c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm0-8c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm4 4h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1s.45 1 1 1zm0 4h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1s.45 1 1 1zM7 8c0 .55.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1z"/></svg></button>
+            <button class="paragraphStartLink prim column"><span>Make selection Linked</span><svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 24 24" width="18"><path d="M0 0h24v24H0V0z" fill="none"/><path fill="#fff" d="M17 7h-3c-.55 0-1 .45-1 1s.45 1 1 1h3c1.65 0 3 1.35 3 3s-1.35 3-3 3h-3c-.55 0-1 .45-1 1s.45 1 1 1h3c2.76 0 5-2.24 5-5s-2.24-5-5-5zm-9 5c0 .55.45 1 1 1h6c.55 0 1-.45 1-1s-.45-1-1-1H9c-.55 0-1 .45-1 1zm2 3H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h3c.55 0 1-.45 1-1s-.45-1-1-1H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h3c.55 0 1-.45 1-1s-.45-1-1-1z"/></svg></button>
+            <div class="linkInput inputRow">
+                <label for="linkText">Skriv länken här</label>
+                <input type="text" class="linkText" id="linkText">
+                <button class="paragraphLink prim column"><span>Länka!</span><svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 24 24" width="18"><path d="M0 0h24v24H0V0z" fill="none"/><path fill="#fff" d="M17 7h-3c-.55 0-1 .45-1 1s.45 1 1 1h3c1.65 0 3 1.35 3 3s-1.35 3-3 3h-3c-.55 0-1 .45-1 1s.45 1 1 1h3c2.76 0 5-2.24 5-5s-2.24-5-5-5zm-9 5c0 .55.45 1 1 1h6c.55 0 1-.45 1-1s-.45-1-1-1H9c-.55 0-1 .45-1 1zm2 3H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h3c.55 0 1-.45 1-1s-.45-1-1-1H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h3c.55 0 1-.45 1-1s-.45-1-1-1z"/></svg></button>
+            </div>
+        </div>
+
+        <div class="imageEditor sidebarLevel closed" data-parent=".editorLevel" data-level="3">
+            <h2>Redigera bild</h2>
+            <button class="selectImageButton prim column"><span>Välj bild</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="18px" height="18px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M21 3H3C2 3 1 4 1 5v14c0 1.1.9 2 2 2h18c1 0 2-1 2-2V5c0-1-1-2-2-2zM5.63 16.19l2.49-3.2c.2-.25.58-.26.78-.01l2.1 2.53 3.1-3.99c.2-.26.6-.26.8.01l3.51 4.68c.25.33.01.8-.4.8H6.02c-.41-.01-.65-.49-.39-.82z"/></svg></button>
+        </div>
+        
+        <div class="videoEditor sidebarLevel closed" data-parent=".editorLevel" data-level="3">
+            <h2>Redigera Video</h2>
+            <div class="acticleName inputRow">
+                <label for="articleNameInput">Länk</label>
+                <input type="text" class="editVideoLinkInput">
+            </div>
+            <div class="acticleName inputRow">
+                <label for="articleNameInput">Starta vid tid (sekunder)</label>
+                <input type="text" class="editVideoStartTime">
+            </div>
+            <button class="editVideoLinkButton prim">Uppdatera</button>
+        </div>
+    </div>
+</aside>
+<div class="articleCol">
+    <h1 class="editTitle"><%= update ? "Uppdatera" : "Skapa" %> artikel</h1>
+    <div class="movingComponent">
+        <svg class="componentImage"></svg>
+        <h3>Heading</h3>
+    </div>
+    <div class="visualEditor">
+        <div class="universalEditor">
+            <button title="Flytta komponent" class="moveComponent"><span></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="18px" height="18px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M10.5 9h3c.28 0 .5-.22.5-.5V6h1.79c.45 0 .67-.54.35-.85l-3.79-3.79c-.2-.2-.51-.2-.71 0L7.85 5.15c-.31.31-.09.85.36.85H10v2.5c0 .28.22.5.5.5zm-2 1H6V8.21c0-.45-.54-.67-.85-.35l-3.79 3.79c-.2.2-.2.51 0 .71l3.79 3.79c.31.31.85.09.85-.36V14h2.5c.28 0 .5-.22.5-.5v-3c0-.28-.22-.5-.5-.5zm14.15 1.65l-3.79-3.79c-.32-.32-.86-.1-.86.35V10h-2.5c-.28 0-.5.22-.5.5v3c0 .28.22.5.5.5H18v1.79c0 .45.54.67.85.35l3.79-3.79c.2-.19.2-.51.01-.7zM13.5 15h-3c-.28 0-.5.22-.5.5V18H8.21c-.45 0-.67.54-.35.85l3.79 3.79c.2.2.51.2.71 0l3.79-3.79c.31-.31.09-.85-.35-.85H14v-2.5c0-.28-.22-.5-.5-.5z"/></svg></button>
+            <button title="Duplicera komponent" class="duplicateComponent"><span></span><svg xmlns="http://www.w3.org/2000/svg" fill="white" height="18" viewBox="0 0 24 24" width="18"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M15 1H4c-1.1 0-2 .9-2 2v13c0 .55.45 1 1 1s1-.45 1-1V4c0-.55.45-1 1-1h10c.55 0 1-.45 1-1s-.45-1-1-1zm4 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-1 16H9c-.55 0-1-.45-1-1V8c0-.55.45-1 1-1h9c.55 0 1 .45 1 1v12c0 .55-.45 1-1 1z"/></svg></button>
+            <button title="Ta bort komponent" class="remove removeCompontent"><span></span><svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 24 24" width="18"><path d="M0 0h24v24H0V0z" fill="none"/><path fill="#fff" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v10zM18 4h-2.5l-.71-.71c-.18-.18-.44-.29-.7-.29H9.91c-.26 0-.52.11-.7.29L8.5 4H6c-.55 0-1 .45-1 1s.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1z"/></svg></button>
+        </div>
+        <div class="article-content"></div>
+    </div>
+</div>
+
+<div class="centerer">&nbsp;</div>
+
+<div class="savePopup">
+    <div class="backdrop"></div>
+    <div class="content">
+        <h3>Vad vill du göra?</h3>
+        <button class="savePopupButtonAndLeave"><span>Spara och gå till starsidan</span><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="white"><path d="M10.79 16.29c.39.39 1.02.39 1.41 0l3.59-3.59c.39-.39.39-1.02 0-1.41L12.2 7.7c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L12.67 11H4c-.55 0-1 .45-1 1s.45 1 1 1h8.67l-1.88 1.88c-.39.39-.38 1.03 0 1.41zM19 3H5c-1.11 0-2 .9-2 2v3c0 .55.45 1 1 1s1-.45 1-1V6c0-.55.45-1 1-1h12c.55 0 1 .45 1 1v12c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1v3c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></button>
+        <button class="savePopupButton"><span>Spara och fortsätt redigera</span><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="white"><path d="M17.59 3.59c-.38-.38-.89-.59-1.42-.59H5c-1.11 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7.83c0-.53-.21-1.04-.59-1.41l-2.82-2.83zM12 19c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm1-10H7c-1.1 0-2-.9-2-2s.9-2 2-2h6c1.1 0 2 .9 2 2s-.9 2-2 2z"/></svg></button>
+        <button class="closeSavePopup"><span>Fortsätt redigera</span><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="white"><path d="M3 17.46v3.04c0 .28.22.5.5.5h3.04c.13 0 .26-.05.35-.15L17.81 9.94l-3.75-3.75L3.15 17.1c-.1.1-.15.22-.15.36zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button>
+        <button class="leaveNoSave"><span>Lämna utan att spara</span><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="white"><path d="M10.79 16.29c.39.39 1.02.39 1.41 0l3.59-3.59c.39-.39.39-1.02 0-1.41L12.2 7.7c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L12.67 11H4c-.55 0-1 .45-1 1s.45 1 1 1h8.67l-1.88 1.88c-.39.39-.38 1.03 0 1.41zM19 3H5c-1.11 0-2 .9-2 2v3c0 .55.45 1 1 1s1-.45 1-1V6c0-.55.45-1 1-1h12c.55 0 1 .45 1 1v12c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1v3c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></button>
+    </div>
+    
+</div>
+
+
+<template class="tagTemplate">
+    <button onclick="this.remove()">
+        <span></span>
+        <input type="hidden" name="tags[]">
+    </button>
+</template>

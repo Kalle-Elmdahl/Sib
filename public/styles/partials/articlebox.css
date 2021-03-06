@@ -1,0 +1,126 @@
+.articleList {
+    max-width: 1200px;
+    margin:0 auto;
+}
+
+.article-box {
+    background:#f9f9f9;
+    padding:5%;
+    margin:10px 2%;
+    border-radius: 5px;
+    text-align: left;
+    box-shadow:0 1px 2px 0px rgba(0,0,0,.2);
+    transition:box-shadow .3s ease;
+}
+
+.article-box:hover {
+    box-shadow:0 1px 2px 1px rgba(0,0,0,.2);
+}
+
+.article-box > a {
+    display:block;
+    padding-bottom:80%;
+    width:80%;
+    min-width: 200px;
+    position: relative;
+    margin:0 auto;
+}
+
+.article-box img {
+    box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);
+    border-radius: 5px;
+    min-width:200px;
+    min-height: 200px;
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    position: absolute;
+    top:0;
+    left:0;
+}
+
+.article-box div {
+    display:flex;
+    flex-direction: column;
+}
+
+.article-box div h2 {
+    margin-top:20px;
+    margin-bottom:0;
+    color:var(--clr-text);
+    font-size:18px;
+}
+
+.article-box div p {
+    margin-top:0;
+    display:-webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+
+.article-box .date {
+    margin:5px 0;
+    opacity: .6;
+    font-size:12px;
+}
+
+.article-box div > a {
+    color: var(--clr-prim);
+    margin-top:15px;
+    text-decoration: none;
+}
+
+@media (min-width: 500px) {
+    .articleList {
+        display:flex;
+        flex-wrap: wrap;
+    }
+
+    .article-box {
+        width:calc(50% - 10px);
+        margin:0 5px 10px 5px;
+        padding:10px 2% 30px 2%;
+        text-align: left;
+    }
+
+    .article-box > a {
+        padding-bottom:100%;
+        width:100%;
+    }
+
+    .article-box div h2 {
+        font-size:18px;
+        margin-bottom:0;
+    }
+
+    .article-box div .date {
+        font-size:12px;
+    }
+
+    .article-box div p {
+        margin-top:0;
+        display:-webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+    }
+}
+
+@media (min-width: 650px) {
+    .article-box {
+        width:calc(33.3% - 10px);
+        margin:0 5px 10px 5px;
+        padding:10px 2% 30px 2%;
+        text-align: left;
+    }
+}
+
+@media (min-width: 1000px) {
+    .article-box {
+        width:calc(25% - 10px);
+        margin:0 5px 10px 5px;
+        padding:10px 2% 30px 2%;
+        text-align: left;
+    }
+}

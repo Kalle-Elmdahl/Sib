@@ -1,0 +1,79 @@
+form {
+    max-width:400px;
+    margin:100px auto;
+}
+
+.input {
+    width: 100%;
+    position: relative;
+    font-family: sans-serif;
+    background: #f2f2f2;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    display:block;
+}
+
+.input input {
+    width: 100%;
+    padding: 30px 20px 10px 20px;
+    border: none;
+    background: none;
+}
+
+.input input:focus {
+    outline: none;
+}
+
+.input input:placeholder-shown ~ span {
+    transform: translate(0, -50%);
+}
+
+.input span {
+    content: 'Type something...';
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translate(0, -100%);
+    pointer-events: none;
+    font-size: 13px;
+    color: #444;
+    transition: transform 0.2s cubic-bezier(0.19, 0.65, 0.37, 0.95);
+}
+
+.input::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: var(--clr-prim);
+    transform: scale(0, 1);
+    transform-origin: left center;
+    transition: transform 0.2s cubic-bezier(0.19, 0.65, 0.37, 0.95);
+}
+
+.input:focus-within span {
+    transform: translate(0, -100%) !important;
+}
+
+.input:focus-within::after {
+    transform: scale(1, 1);
+}
+
+input[type=submit] {
+    margin-top:15px;
+    width:100%;
+    border:none;
+    background:var(--clr-prim);
+    color:#fff;
+    padding:10px 0;
+    border-radius: 4px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    transition:transform .3s var(--cubic);
+}
+
+input[type=submit]:hover, input[type=submit]:focus {
+    transform:scale(1.02);
+}

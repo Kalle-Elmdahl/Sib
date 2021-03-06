@@ -1,0 +1,32 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<h1>Uppfödare som inte är accepterade</h1>
+<% if(pending.length === 0) { %>
+    <p>Det finns inga uppfödare att acceptera</p>
+<% } %>
+<% pending.forEach(row => { %>
+    <div class="row">
+        <h2><%= row.stamnamn %></h2>
+        <p><span>Uppfödare: </span><%= row.name %></p>
+        <p><span>Stad: </span><%= row.city %></p>
+        <a href="<%= row.webpage %>">Gå till uppfödaren</a>
+        <div style="margin-top:10px">
+            <button data-id="<%= row._id %>" onclick="accept(this)"><%= row.update ? "Updatera" : "Ja" %></button>
+            <button data-id="<%= row._id %>" onclick="reject(this)">Nej</button>
+        </div>
+    </div>
+<% }); %>
+<script>
+    function getData(url) {
+        return $.ajax({ url: url, type: 'GET',});
+    }
+
+    const accept = async btn => {
+        await getData("/administrera/accept?id=" + btn.dataset.id)
+        window.location.reload();
+    }
+
+    const reject = async btn => {
+        await getData("/administrera/reject?id=" + btn.dataset.id)
+        window.location.reload();
+    }
+</script>

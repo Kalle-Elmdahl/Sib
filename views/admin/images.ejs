@@ -1,0 +1,45 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.js"></script>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.css">
+</head>
+<div class="hideViewImage"></div>
+<div class="viewImage">
+    <img src="/resources/assets/placeholder.png" alt="" class="imageBig">
+    <button class="closeViewImage">x</button>
+    <div class="sidebar">
+        <h3>Thumbnail</h3>
+        <img src="#" alt="" class="thumbnail">
+        <h3>Senast ändrad</h3>
+        <p class="modifiedDate"></p>
+        <h3>Storlek</h3>
+        <p class="size"></p>
+        <h3>Fotograf</h3>
+        <form action="/administrera/images/updatephotographer" method="post" class="photographerForm">
+            <input type="text" class="photographer" name="photographer">
+            <input type="submit" value="Uppdatera" class="updatePhotographer">
+        </form>
+        <h3>Ta bort</h3>
+        <a class="removeImage">Ta bort bilden</a>
+    </div>
+</div>
+<h1>Administrera bilder</h1>
+<form action="/administrera/images/uploadimage"
+      class="dropzone"
+      id="imageUpload"
+      method="POST"
+      name="file"></form>
+
+<div class="imagesList">
+    <% images.forEach(image => { %>
+        <div class="image">
+            <img 
+                src="<%=productionUrl + image.compressed%>"
+                data-original="<%=image.original%>"
+                data-lastmod="<%=image.date%>"
+                data-size="<%=image.size%>"
+                data-photographer="<%=image.photographer%>"
+                data-id="<%=image._id%>"
+            >
+        </div>
+    <% }); %>
+</div>

@@ -1,0 +1,20 @@
+<% 
+    const fixDate = d => {
+        if(d >= 10) return d
+        return "0" + d
+    }
+%>
+<div class="articleList">
+    <% articles.forEach(article => { %>
+        <div class="article-box">
+            <a href="/<%=article.categoryLink + "/" + article.link%>"><img src="/compressed/<%=article.image.split('/').reverse()[0]%>" alt="beskrivande bild"></a>
+            <div>
+                <a href="/<%=article.categoryLink + "/" + article.link%>"><h2><%=article.name%></h2></a>
+                <% const articleDate = new Date(article.date) %>
+                <span class="date"><%= articleDate.getFullYear() %>/<%= fixDate(articleDate.getMonth() + 1) %>/<%= fixDate(articleDate.getDate()) %></span>
+                <p><%=article.description%></p>
+                <a href="/<%=article.categoryLink + "/" + article.link%>">Läs artikeln ></a>
+            </div>
+        </div>
+    <% }); %>
+</div>

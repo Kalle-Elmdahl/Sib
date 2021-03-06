@@ -1,0 +1,258 @@
+.landing {
+    background: var(--clr-box);
+    padding-top: 20px;
+}
+
+.upper {
+    background:#fff;
+    padding: 30px 3%;
+    text-align: left;
+}
+
+.upper .bigLogo {
+    display:none;
+}
+
+.upper h1 {
+    font-size:28px;
+    margin:0;
+}
+
+.upper p {
+    font-size: 13px;
+    margin:0;
+    line-height: 20px;
+}
+
+.upper h3 {
+    margin-bottom:5px;
+}
+
+.upper .desktopSearch {
+    display:none;
+}
+
+.upper .scroll {
+    border:none;
+    background: var(--clr-prim-2);
+    width:48px;
+    height:48px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    transition: transform .3s var(--cubic);
+    cursor: pointer;
+}
+
+.upper .scroll:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+}
+
+.upper .scroll:focus {
+    outline:none;
+}
+
+.upper .scroll:focus > svg {
+    transform: scale(1.1);
+}
+
+.landing > img {
+    max-width:calc(100% - 100px);
+    max-height: 400px;
+    margin-left:auto;
+    display: block;
+    margin-top: -120px;
+}
+
+.landing .search {
+    padding: 10px 3%;
+    background: #fff;
+}
+
+.input {
+    width: 100%;
+    position: relative;
+    font-family: sans-serif;
+    background: var(--clr-box);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    border-radius: 4px;
+    overflow: hidden;
+    display:block;
+    margin:10px 0;
+}
+
+.input input {
+    width: 100%;
+    padding: 25px 20px 5px 20px;
+    border: none;
+    background: none;
+    font-size: 16px;
+}
+
+.input input:focus {
+    outline: none;
+}
+
+.input input:placeholder-shown ~ span {
+    transform: translate(0, -50%);
+}
+
+.input span {
+    content: 'Type something...';
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translate(0, -110%);
+    pointer-events: none;
+    font-size: 13px;
+    font-weight: bold;
+    color: #444;
+    transition: transform 0.2s cubic-bezier(0.19, 0.65, 0.37, 0.95);
+}
+
+.input button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom:0;
+    background: var(--clr-prim-2);
+    width: 50px;
+    border:none;
+    margin:0;
+    cursor: pointer;
+}
+
+.input::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: var(--clr-prim-2);
+    transform: scale(0, 1);
+    transform-origin: left center;
+    transition: transform 0.2s cubic-bezier(0.19, 0.65, 0.37, 0.95);
+}
+
+.input:focus-within span {
+    transform: translate(0, -110%) !important;
+}
+
+.input:focus-within::after {
+    transform: scale(1, 1);
+}
+
+@media (min-width:580px) {
+    .upper p {
+        width:50%;
+    }
+
+    .landing > img {
+        max-width:calc(100% - 100px);
+        max-height: 400px;
+        margin-top: -280px;
+    }
+
+    .upper .desktopSearch {
+        display:block;
+        width:50%;
+    }
+    
+    .search {
+        display:none;
+    }
+}
+
+@media (min-width:1000px) {
+    .landing {
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .upper {
+        align-self:flex-start;
+        max-width: 756px;
+        margin: 30px 50px 0 50px;
+        box-shadow: var(--shadow);
+        border-radius: 4px;
+    }
+
+    .landing > img {
+        max-width:unset;
+        max-height: unset;
+        margin-left: 0;
+        margin-top: 0;
+        height:600px;
+        width:auto;
+    }
+
+    .upper p {
+        width: 100%;
+    }
+    
+    .upper .desktopSearch {
+        width: 100%;
+        margin-top:20px;
+    }
+
+    .input input {
+        padding: 30px 20px 10px 20px;
+    }
+    
+    .input span {
+        transform: translate(0, -100%);
+    }
+    
+    .input:focus-within span {
+        transform: translate(0, -100%) !important;
+    }
+
+    .cta {
+        display:flex;
+        align-items: center;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        margin-top:20px;
+    }
+
+    .cta h3 {
+        margin:0;
+        margin-left:20px;
+    }
+
+    .scrollTarget {
+        margin-top:-150px;
+    }
+
+    .articleList {
+        background: rgba(255, 255, 255, .7);
+        padding:20px;
+        position: relative;
+        border-radius: 10px;
+        backdrop-filter: saturate(150%) blur(5px);
+        -webkit-backdrop-filter: saturate(150%) blur(5px);
+    }
+}
+
+@media (min-width:1150px) {
+    .upper .bigLogo {
+        display:block;
+        width:120px;
+        height: 152px;
+        margin-right:30px;
+    }
+
+    .upper .top {
+        display:flex;
+    }
+
+    .upper .top p {
+        font-size:15px;
+        line-height: 23px;
+    }
+}

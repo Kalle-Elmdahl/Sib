@@ -1,0 +1,129 @@
+.container {
+    max-width: 800px;
+    margin:0 auto;
+}
+
+.input {
+    width: 100%;
+    position: relative;
+    font-family: sans-serif;
+    background: var(--clr-box);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    border-radius: 4px;
+    overflow: hidden;
+    display:block;
+    margin:10px 0;
+}
+
+.input input {
+    width: 100%;
+    padding: 25px 20px 10px 20px;
+    border: none;
+    background: none;
+    font-size: 16px;
+}
+
+input[type=search]::-ms-clear { display: none; width : 0; height: 0; }
+input[type=search]::-ms-reveal { display: none; width : 0; height: 0; }
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { display: none; }
+
+.input input:focus {
+    outline: none;
+}
+
+.input input:placeholder-shown ~ span {
+    transform: translate(0, -50%);
+}
+
+.input span {
+    content: 'Type something...';
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translate(0, -110%);
+    pointer-events: none;
+    font-size: 13px;
+    font-weight: bold;
+    color: #444;
+    transition: transform 0.2s cubic-bezier(0.19, 0.65, 0.37, 0.95);
+}
+
+.input button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom:0;
+    background: var(--clr-prim-2);
+    width: 50px;
+    border:none;
+    margin:0;
+    cursor: pointer;
+}
+
+.input::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: var(--clr-prim-2);
+    transform: scale(0, 1);
+    transform-origin: left center;
+    transition: transform 0.2s cubic-bezier(0.19, 0.65, 0.37, 0.95);
+}
+
+.input:focus-within span {
+    transform: translate(0, -110%) !important;
+}
+
+.input:focus-within::after {
+    transform: scale(1, 1);
+}
+
+.category {
+    display: flex;
+    justify-content: space-between;
+    width:100%;
+    background: var(--clr-box);
+    padding:15px;
+    margin: 10px 0;
+    box-shadow: var(--shadow);
+}
+
+.category a {
+    font-weight: normal;
+}
+
+.box {
+    color:#000;
+    font-weight: normal; 
+    text-align: left;
+    background: var(--clr-box);
+    box-shadow: var(--shadow);
+    padding:1px 30px 30px 30px;
+}
+
+.container > .box + .box {
+    margin-top:50px;
+}
+
+.container img {
+    width: 250px;
+    height:250px;
+    object-fit: cover;
+}
+
+.container > button {
+    padding: 10px 20px;
+    background: var(--clr-prim);
+    color:#fff;
+    font-weight: bold;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    margin-top: 30px;
+}

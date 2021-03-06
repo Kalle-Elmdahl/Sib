@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/admin.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/resources/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/resources/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/resources/icons/favicon-16x16.png">
+    <link rel="manifest" href="/resources/icons/site.webmanifest">
+    <link rel="mask-icon" href="/resources/icons/safari-pinned-tab.svg" color="#98114c">
+    <link rel="shortcut icon" href="/resources/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#00aba9">
+    <meta name="msapplication-config" content="/resources/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <title><%=title%></title>
+    <% if(typeof styles !== "undefined") { %>
+        <% styles.forEach(style => { %>
+            <link rel="stylesheet" href="/styles/<%=style%>.css">
+        <%}) %>
+    <% } %>
+    <% if(typeof scripts !== "undefined") { %>
+        <% scripts.forEach(script => { %>
+            <% if(typeof script === "string") { %>
+                <script defer src="/scripts/<%=script%>.js"></script>
+            <% } else { %>
+                <script defer src="/scripts/<%=script.name%>.js" type="<%=script.type%>"></script>
+            <% } %>
+        <% }) %>
+    <% } %>
+    <script defer src="/scripts/script.js"></script>
+
+</head>
+<body>
+    <header>
+        <div class="adminHeader">
+            <a href="/administrera">Till adminsidan</a>
+            <a href="/administrera/logout">Logga ut</a>
+        </div>
+        <a href="/" class="LogoLink">
+            <img src="/resources/logo.svg" alt="Logo" width="20px" height="20px">
+            <h3>SibiriskaKatten.se</h3>
+        </a>
+        <input type="checkbox" class="navigationSwitch" id="navInput">
+        <label class="navDrop" for="navInput"></label>
+        <nav>
+            <a href="/">Hem</a>
+            <% categories.forEach(category => { %>
+                <a href="/<%=category.link%>"><%=category.name%></a>
+            <% }) %>
+            <a href="/uppfodarlista">Uppfödarlista</a>
+        </nav>
+        <label class="navHamburger" for="navInput">
+            <div class="hamburger"></div>
+            <div class="hamburger-c"></div>
+        </label>
+    </header>
+    <% if(typeof messages !== "undefined") { %>
+        <%- include('../partials/informer', {messages: messages}); %>
+    <% } %>
+    <div class="container">
+        <%- body %>
+    </div>
+</html>

@@ -1,0 +1,21 @@
+<% content.forEach(component => { %>
+    <section>
+        <% if(component.tag === 'p') { %>
+            <div class="paragraph"><%-component.content%></div>
+        <% } else if(component.tag === 'img') { %>
+            <img data-src="<%=component.content%>" src="/resources/loader.svg" class="lazy" alt="Bild för artikeln">
+            <noscript><img src=“<%=component.content%>” /></noscript>
+            <% if(component.photographer && component.photographer !== "") { %>
+                <span class="photographer"><%= component.photographer %></span>
+            <% } %>
+        <% } else if(component.tag === 'iframe') { %>
+            <iframe width="560" height="315" src="<%= component.content %>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <% } else if(component.tag === 'table') { %>
+            <table>
+                <%- component.content %>
+            </table>
+        <% } else { %>
+            <<%=component.tag%> class="h"><%=component.content%></<%=component.tag%>>
+        <% } %>
+    </section>
+<% }) %>

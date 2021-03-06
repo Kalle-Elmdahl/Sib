@@ -1,0 +1,6 @@
+<% messages.forEach(message => { %>
+    <div class="message <%=message.type%>">
+        <p><%=message.text%></p>
+        <button onclick="this.parentElement.remove()">X</button>
+    </div>
+<% }) %> 

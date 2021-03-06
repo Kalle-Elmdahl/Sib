@@ -1,0 +1,249 @@
+
+
+.windows {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100vh;
+    /* display:none; */
+    z-index:100000;
+}
+
+.windows .windowFade {
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.5);
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+.windows > div:not(.windowFade) {
+    background:#fff;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:550px;
+    padding:75px 10px;
+    border-radius:20px;
+}
+
+.windows > div .close {
+    position:absolute;
+    top:25px;
+    right:25px;
+    background:none;
+    border:none;
+    cursor:pointer;
+}
+
+.windows > div .close i {
+    font-size:25px;
+}
+
+.displayBlockTypes {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.displayBlockTypes .child {
+    width:33%;
+    background:none;
+    border:none;
+}
+
+.displayBlockTypes img {
+    width:50%;
+    height:81px;
+    object-fit: contain;
+}
+
+.windows input[type=text] {
+    border:none;
+    border-bottom:1px solid #999;
+    padding:10px 20px;
+}
+
+.windows input[type=text]:focus, .windows input[type=text]:hover {
+    border-bottom:1px solid #000;
+    outline:none;
+}
+
+.windows .save {
+    background:none;
+    border:2px solid #151515;
+    padding:5px 30px;
+    font-size:1em;
+    text-transform:uppercase;
+    font-weight:bold;
+    border-radius:20px;
+    margin-top:10px;
+}
+
+.windows .save:focus, .windows .save:hover {
+    background: #151515;
+    color:#fff;
+    outline:none;
+}
+
+
+/* Edit paragraph */
+
+.editParagraph .paraEditor .actions {
+    display:flex;
+    justify-content: center;
+}
+
+.editParagraph .paraEditor .actions button {
+    background: #151515;;
+    color:#fff;
+    border:none;
+    width:30px;
+    height: 30px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.editParagraph .paraEditor .text  {
+    border:1px solid #151515;
+}
+
+.editParagraph .paraEditor .text p {
+    padding:10px;
+}
+
+.editParagraph .paraEditor .text p:focus {
+    outline:none;
+}
+
+
+/* Edit Image */
+
+.editImage img {
+    width:50%;
+    display: block;
+    margin:10px auto;
+}
+
+.editImage button {
+    width:50%;
+    display: block;
+    margin:10px auto;
+}
+
+
+
+
+/* EDIT HEADER */
+
+.editHeading .headingEditor {
+    border-bottom:2px solid #999;
+}
+
+.editHeading .headingEditor:hover, .editHeading .headingEditor:focus {
+    outline:none;
+    border-bottom:2px solid #151515;
+}
+
+.editHeading .headingTypes  {
+    margin-bottom:30px;
+    display:flex;
+    justify-content: center;
+    border-radius: 50px;
+    background: #f2f2f2;
+    overflow: hidden;
+}
+
+.editHeading .headingTypes button {
+    background:none;
+    border:none;
+    padding:10px 20px;
+    font-size:1em;
+    position: relative;
+    width:calc(1 / 6 * 100%);
+}
+
+.editHeading .headingTypes button:not(:last-child)::after {
+    content:'';
+    background: #e2e2e2;
+    position:absolute;
+    right:0;
+    top:0;
+    bottom:0;
+    width:2px;
+}
+
+.editHeading .headingTypes button.active, .editHeading .headingTypes button:hover, .editHeading .headingTypes button:focus {
+    outline:none;
+    background: #e2e2e2;
+}
+
+/* VIDEO */
+
+.videoParent {
+    background:#f2f2f2;
+    border-radius:50px;
+    padding:0 10px;
+}
+
+.videoParent input[type=text] {
+    padding:10px 0;
+    background:none;
+    border:none;
+    font-size:1em;
+    width:100%;
+}
+
+.videoParent input[type=text]::placeholder {
+    color:#ccc;
+}
+
+.videoParent input[type=text]:focus, .videoParent input[type=text]:hover {
+    border:none;
+}
+
+.videoParent input[type=text]:hover::placeholder {
+    color:#888;
+}
+
+/* TABLE */
+
+.addRow {
+    display:block;
+    width:50%;
+    margin:10 auto;
+}
+
+.editTable .tableParent {
+    position: relative;
+}
+
+.editTable table {
+    width:calc(100% - 40px);
+    border-collapse:collapse;
+    margin:50px 0;
+}
+
+.tableParent .tableControl {
+    position:absolute;
+    top:0;
+    right:0;
+    display:flex;
+    flex-direction: column;
+}
+
+.tableParent .tableControl button {
+    height:35px;
+    width:30px;
+    margin:2px 0;
+}
+
+.editTable table td {
+    padding:10px;
+    border: 1px solid #000;
+}

@@ -1,0 +1,248 @@
+p:not(.center) {
+    text-align:left;
+}
+
+.inputsContainer {
+    max-width: 1000px;
+    margin:0 auto;
+    display:flex;
+}
+
+.inputsContainer .col {
+    width:calc(50% - 20px);
+    margin: 0 10px;
+}
+
+.input {
+    width: 100%;
+    position: relative;
+    font-family: sans-serif;
+    background: #f2f2f2;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    display:block;
+    margin:10px 0;
+}
+
+.input input {
+    width: 100%;
+    padding: 30px 20px 10px 20px;
+    border: none;
+    background: none;
+}
+
+.input input:focus {
+    outline: none;
+}
+
+.input input:placeholder-shown ~ span {
+    transform: translate(0, -50%);
+}
+
+.input span {
+    content: 'Type something...';
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translate(0, -100%);
+    pointer-events: none;
+    font-size: 13px;
+    font-weight: bold;
+    color: #444;
+    transition: transform 0.2s cubic-bezier(0.19, 0.65, 0.37, 0.95);
+}
+
+.input::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: var(--clr-prim);
+    transform: scale(0, 1);
+    transform-origin: left center;
+    transition: transform 0.2s cubic-bezier(0.19, 0.65, 0.37, 0.95);
+}
+
+.input:focus-within span {
+    transform: translate(0, -100%) !important;
+}
+
+.input:focus-within::after {
+    transform: scale(1, 1);
+}
+
+.input select {
+    width: 100%;
+    padding: 30px 20px 10px 20px;
+    border: none;
+    background: none;
+}
+
+.input select:focus {
+    outline:none;
+}
+
+.input textarea {
+    width: 100%;
+    padding: 30px 20px 10px 20px;
+    border: none;
+    background: none;
+    resize: vertical;
+    height:120px;
+    font-family: inherit;
+}
+
+.input textarea:focus {
+    outline:none;
+}
+
+.input.textarea span {
+    top:10px;
+    transform: translate(0, 0) !important;
+}
+
+.articleCoverImage {
+    width:50%;
+}
+
+.inputsContainer .coverImagePhotographer {
+    text-align: center;
+}
+
+.addCoverImage {
+    border:none;
+    margin:auto;
+    background: var(--clr-prim);
+    font-weight: bold;
+    font-size:16px;
+    color:#fff;
+    height: 35px;
+    width: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+
+
+.edit {
+    border:1px solid #999;
+    width:550px;
+    margin:10px auto 50px auto;
+    position: relative;
+    padding:10px;
+}
+
+.parent {
+    display:flex;
+    flex-direction: column;
+}
+
+.sectionActions {
+    position:absolute;
+    top:0;
+    right:-30px;
+    width:30px;
+    display:none;
+    transform:translateY(-50%);
+}
+
+.sectionActions button {
+    background: #64b2cd;
+    border:none;
+    width:100%;
+    height:30px;
+    color:#fff;
+    cursor:pointer;
+}
+
+.sectionActions button:first-child {
+    cursor:grab;
+}
+
+.addNew {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding:5px 10%;
+    border:2px dotted #000;
+    cursor:pointer;
+}
+
+.addNew span {
+    background:#f2f2f2;
+    border-radius: 50%;
+    width:30px;
+    height:30px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.parent section {
+    position:relative;
+}
+
+.parent section.moveTarget {
+    border-top:5px solid #000;
+}
+
+.parent section:hover {
+    box-shadow: 0 0 0 2px #000;
+}
+
+.parent section::before {
+    content:'';
+    position:absolute;
+    top:2px;
+    left:-5px;
+    bottom:2px;
+    width:2px;
+    background: #608283;
+
+}
+
+.parent section > *:focus {
+    outline:none;
+}
+
+section img {
+    width:100%;
+    margin:10px 0;
+}
+
+section iframe {
+    margin: 10px 0;
+}
+
+section table {
+    min-width:100%;
+    border-collapse:collapse;
+    margin:1em 0;
+}
+
+section table td {
+    padding:10px;
+    border: 1px solid #000;
+}
+
+.savebtn, .previewbtn {
+    color:#608283;
+    border:2px solid #608283;
+    padding:10px 50px;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-bottom:300px;
+    display:inline-block;
+}
+
+.savebtn {
+    color:#fff;
+    background: #608283;
+}

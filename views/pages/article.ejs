@@ -1,0 +1,51 @@
+<div class="progress-bar"></div>
+
+<main>
+    <% const articleDate = new Date(article.date) %>
+    <% const months = ["Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December",] %>
+    <% let dateString = `${articleDate.getDate()} ${months[articleDate.getMonth()]} ${articleDate.getFullYear()}` %>
+    <% if(article.date !== article.lastmod) { %>
+        <% const aricleLastmod = new Date(article.lastmod) %>
+        <% dateString += `, ändrad: ${aricleLastmod.getDate()} ${months[aricleLastmod.getMonth()]} ${aricleLastmod.getFullYear()}` %>
+    <% } %>
+    <div class="date topInfo">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm-.22-13h-.06c-.4 0-.72.32-.72.72v4.72c0 .35.18.68.49.86l4.15 2.49c.34.2.78.1.98-.24.21-.34.1-.79-.25-.99l-3.87-2.3V7.72c0-.4-.32-.72-.72-.72z"/></svg>
+        <span class="date"><%=dateString%></span>
+    </div>
+    <div class="category topInfo">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11.15 3.4L7.43 9.48c-.41.66.07 1.52.85 1.52h7.43c.78 0 1.26-.86.85-1.52L12.85 3.4c-.39-.64-1.31-.64-1.7 0z"/><circle cx="17.5" cy="17.5" r="4.5"/><path d="M4 21.5h6c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1z"/></svg>
+        <span>Kategori: <%= article.category %></span>
+    </div>
+    <h1><%=article.name%></h1>
+    <p><%=article.description%></p>
+    <img src="<%=article.image%>" alt="">
+    <span class="photographer"><%= article.photographer %></span>
+</main>
+
+<div class="article-content">
+    <% article.content.forEach(component => { %>
+        <section>
+            <% if(component.tag === 'p') { %>
+                <div class="paragraph"><%-component.content%></div>
+            <% } else if(component.tag === 'img') { %>
+                <img data-src="<%=component.content%>" src="/resources/loader.svg" class="lazy" alt="Bild för artikeln">
+                <% if(component.photographer && component.photographer !== "") { %>
+                    <span class="photographer"><%= component.photographer %></span>
+                <% } %>
+            <% } else if(component.tag === 'iframe') { %>
+                <iframe width="560" height="315" src="<%= component.content %>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <% } else if(component.tag === 'table') { %>
+                <table>
+                    <%- component.content %>
+                </table>
+            <% } else { %>
+                <<%=component.tag%> class="h"><%=component.content%></<%=component.tag%>>
+            <% } %>
+        </section>
+    <% }) %>
+</div>
+<script>
+    window.addEventListener('scroll', () => {
+        document.querySelector('.progress-bar').style.setProperty('--article-progress', window.scrollY / (document.body.scrollHeight - window.innerHeight))
+    })
+</script>
