@@ -1,15 +1,24 @@
 const mongoose = require('mongoose')
 
 module.exports = mongoose.model('article', new mongoose.Schema({
-    date: String,
+    date: {
+        type: String,
+        default: new Date().toISOString(),
+    },
     lastmod: String,
-    name: String,
+    name: {
+        type: String,
+        default: ""
+    },
     link: String,
     description: String,
     image: String,
     category: String,
     categoryLink: String,
-    private: Boolean,
+    private: {
+        type: Boolean,
+        default: true,
+    },
     tags: [String],
     content: [Object],
     frontPage: Boolean

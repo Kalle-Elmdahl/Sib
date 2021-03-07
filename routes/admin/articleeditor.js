@@ -4,7 +4,22 @@ const Image = require('../../models/image.js')
 const router = express.Router()
 
 router.get('/', async (req, res, next) => {
-    renderArticleEditor(req, res, new article(), next, false)
+    // Create new article
+    const newArticle = new article()
+
+    try {
+        // Save the article
+        const savedArticle = await newArticle.save()
+
+        // Start editing the newly saved article
+        res.redirect(`/administrera/artikelredigerare/${savedArticle._id}`)
+    } catch(e) {
+        req.session.messages.push({
+            type: "error",
+            text: "Kunde inte skapa ny artikel"
+        });
+        res.redirect('/administrera');
+    }
 });
 
 function replaceCharacters(name) {

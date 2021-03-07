@@ -97,6 +97,10 @@ router.post('/update', async (req, res) => {
                 }
                 if(target[key] !== formData[key]) updatedKeys++
                 target[key] = formData[key]
+            } else if(model.schema.paths[key]?.instance === 'Boolean') {
+                // The boolean variable has been un-checked
+                target[key] = false;
+                updatedKeys++
             }
         }
     

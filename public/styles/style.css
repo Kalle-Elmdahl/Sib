@@ -547,6 +547,10 @@ input[type=range] {
     width: 100%;
 }
 
+select {
+    -webkit-appearance: none;
+}
+
 input[type=range]:focus {
     outline: none;
 }
