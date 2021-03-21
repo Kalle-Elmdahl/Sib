@@ -1,0 +1,109 @@
+.container {
+    display: flex;
+    padding: 50px;
+    justify-content: center;
+}
+
+.categories {
+    flex-grow: 1;
+    margin-right:50px;
+}
+
+.categories > .parent {
+    margin:10px 0;
+}
+
+.parent {
+    background:rgba(0,0,0,.02);
+    padding:10px;
+    border-radius: 4px;
+}
+
+.parent.active {
+    outline: 2px solid var(--clr-prim);
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top h3 {
+    margin:0;
+}
+
+.top button {
+    background: var(--clr-prim);
+    border:none;
+    padding:5px 20px;
+    margin:0 5px;
+    border-radius: 4px;
+}
+
+.top button.remove {
+    background: var(--clr-prim-2);
+}
+
+.top button:hover {
+    box-shadow: var(--shadow);
+}
+
+.subcategories {
+    margin-top:10px;
+}
+
+aside {
+    width:300px;
+    text-align: left;
+    position: sticky;
+}
+
+aside .save {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:10px 20px;
+    font-weight: bold;
+}
+
+aside input[type=text] {
+    width:100%;
+    display:block;
+    padding:5px 10px;
+    font-size:16px;
+    margin:5px 0;
+    border-radius: 4px;
+    border:2px solid #000;
+}
+
+aside button {
+    width:100%;
+    margin:5px 0;
+    padding:10px 0;
+    background: var(--clr-prim);
+    border-radius: 4px;
+    border:none;
+    color:#fff;
+}
+
+aside .move {
+    display: flex;
+    justify-content: space-between;
+}
+
+aside .move button {
+    width:49%;
+}
+
+aside .description {
+    width:100%;
+    display:block;
+    padding:5px 10px;
+    font-size:16px;
+    margin:5px 0;
+    border-radius: 4px;
+    border:2px solid #000;
+    height:300px;
+    overflow: auto;
+}

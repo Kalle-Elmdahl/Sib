@@ -1,8 +1,34 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-module.exports = mongoose.model('category', new mongoose.Schema({
+const categorySchema = new mongoose.Schema({
     name: String,
     link: String,
     description: String,
-    order: Number
-}), 'kategorier');
+    order: Number,
+    subCategories: [{
+        type: mongoose.Types.ObjectId, 
+        ref: 'subCategory',
+        required: false
+    }],
+})
+
+const SubCategorySchema = new mongoose.Schema({
+    name: String,
+    link: String,
+    description: String,
+    order: Number,
+    subCategories: [{
+        type: mongoose.Types.ObjectId, 
+        ref: 'subCategory',
+        required: false
+    }],
+})
+
+SubCategorySchema.pre('find', function() {
+    this.populate('subCategories').sort({order: 1});
+});
+
+module.exports = {
+    category: mongoose.model('category', categorySchema, 'kategorier'),
+    subCategory: mongoose.model('subCategory', SubCategorySchema, 'underkategorier')
+}

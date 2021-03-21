@@ -7,6 +7,7 @@ const router = express.Router()
 
 const imagesRouter = require('./images')
 const articleRouter = require('./articleeditor')
+const categoryRouter = require('./category')
 
 router.use((req, res, next) => {
     if(res.locals.admin) {
@@ -20,6 +21,7 @@ router.use((req, res, next) => {
 
 router.use('/images', imagesRouter)
 router.use('/artikelredigerare', articleRouter)
+router.use('/categories', categoryRouter)
 
 router.get('/', async (req, res) => {
     const pendingResult = await pending.find({}).lean() || []

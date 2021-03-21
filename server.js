@@ -7,7 +7,7 @@ const session = require('express-session')
 
 const pass = require('./models/pass.js')
 const article = require('./models/article.js')
-const category = require('./models/category.js')
+const {category, subCategory} = require('./models/category.js')
 const admin = require('./models/admin.js')
 
 const uppfodarRouter = require('./routes/uppfodarlista')
@@ -47,7 +47,8 @@ app.use(express.static('bilder', {
     },
 }));
 
-app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '10mb', extended: false}))
+app.use(bodyParser.json())
 
 app.use(generateBasicVariables)
 app.use(auth)
@@ -153,7 +154,7 @@ app.post('/adminauthentication', async (req, res) => {
             }
         } else {
             req.session.messages.push({
-                type:"information",
+                type: "information",
                 text: "Ange ett lösenord"
             });
         }
