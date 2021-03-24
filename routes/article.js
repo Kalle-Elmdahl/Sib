@@ -1,6 +1,6 @@
 const express = require('express')
 const article = require('../models/article.js')
-const category = require('../models/category.js')
+const {category, subCategory} = require('../models/category.js')
 const Image = require('../models/image.js')
 const router = express.Router()
 
