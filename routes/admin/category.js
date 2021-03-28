@@ -20,7 +20,7 @@ router.post('/update', async (req, res) => {
         if(sentCategory.new) { // The category is new; generate one
             newCategory = new category({
                 name: sentCategory.name,
-                link: replaceCharacters(sentCategory.name),
+                link: sentCategory.link,
                 description: (sentCategory.description || ""),
                 order: i,
             })
@@ -62,16 +62,12 @@ router.post('/update', async (req, res) => {
     res.send("success")
 })
 
-function replaceCharacters(name) {
-    return encodeURIComponent(name.toLowerCase().replace(/ä/g, 'a').replace(/å/g, 'a').replace(/ö/g, 'o').replace(/\s/g, '-'))
-}
-
 async function addSubCategories(sub, index) {
     let newSub
     if(sub.new) {
         newSub = new subCategory({
             name: sub.name,
-            link: replaceCharacters(sub.name),
+            link: sub.link,
             description: (sub.description || ""),
             order: index,
         })

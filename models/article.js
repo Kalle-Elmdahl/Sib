@@ -1,11 +1,6 @@
 const mongoose = require('mongoose')
 
-module.exports = mongoose.model('article', new mongoose.Schema({
-    date: {
-        type: String,
-        default: new Date().toISOString(),
-    },
-    lastmod: String,
+const articleSchema = new mongoose.Schema({
     name: {
         type: String,
         default: ""
@@ -13,7 +8,10 @@ module.exports = mongoose.model('article', new mongoose.Schema({
     link: String,
     description: String,
     image: String,
-    category: String,
+    category: {
+        type: String,
+        default: "",
+    },
     categoryLink: String,
     private: {
         type: Boolean,
@@ -22,4 +20,11 @@ module.exports = mongoose.model('article', new mongoose.Schema({
     tags: [String],
     content: [Object],
     frontPage: Boolean
-}), 'artiklar');
+}, {
+    timestamps: {
+        createdAt: 'date', 
+        updatedAt: 'lastmod'
+    }
+})
+
+module.exports = mongoose.model('article', articleSchema, 'artiklar');

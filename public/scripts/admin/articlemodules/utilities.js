@@ -222,6 +222,53 @@ function load() {
     }
 }
 
+function initCategories() {
+    if(!categories) return
+
+    const parent = document.querySelector('.categoryList')
+    categories.forEach(category => generateCategories(category, parent))
+    const radios = parent.querySelectorAll('input')
+    const initialCategory = document.querySelector('.articleCategoryInput').value
+    radios.forEach(radio => {
+        radio.addEventListener('change', changeCategory)
+        if(radio.dataset.name === initialCategory) radio.checked = true
+    })
+}
+
+function generateCategories(category, parent) {
+    const subSpace = generateCategory(category, parent)
+
+    if(category.subCategories)
+        category.subCategories.forEach(sub => generateCategories(sub, subSpace))
+}
+
+function generateCategory({name, link}, parent) {
+    const container = document.createElement('div')
+    
+    const radioInput = document.createElement('input')
+    radioInput.type = 'radio'
+    radioInput.name = 'category'
+    radioInput.id = link
+    radioInput.dataset.name = name
+    radioInput.dataset.link = link
+    container.appendChild(radioInput)
+
+    container.innerHTML += `<label for="${link}">${name}</label>`
+    const subDiv = document.createElement('div')
+    subDiv.classList.add('subSpace')
+    container.appendChild(subDiv)
+    parent.appendChild(container)
+
+    return subDiv
+}
+
+function changeCategory(e) {
+    document.querySelector('.articleCategoryInput').value = e.target.dataset.name
+    document.querySelector('.articleCategoryLinkInput').value = e.target.dataset.link
+}
+
+initCategories()
+
 function replaceCharacters(name) {
     return encodeURIComponent(name.toLowerCase().replace(/ä/g, 'a').replace(/å/g, 'a').replace(/ö/g, 'o').replace(/\s/g, '-'))
 }

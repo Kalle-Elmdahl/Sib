@@ -154,6 +154,11 @@ aside {
     align-items: center;
 }
 
+.topLevel .articleCategory input[type=text].articleCategoryLinkInput {
+    margin-top: 10px;
+    border:none;
+}
+
 .topLevel .acticleTags .tags button {
     background: #f2f2f2;
     border:none;
@@ -220,6 +225,10 @@ aside {
 .topLevel .removeButton.prim {
     margin-top: 10px;
     background: var(--clr-prim-2);
+}
+
+.categoryLevel .subSpace {
+    margin-left:10px;
 }
 
 .editorLevel .componentGrid {

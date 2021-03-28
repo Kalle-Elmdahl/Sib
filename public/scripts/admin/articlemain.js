@@ -62,6 +62,8 @@ document.querySelector('.sidebar .backButton').addEventListener('click', openLev
 document.querySelector('.sidebar .backButton').addEventListener('click', deselectAll)
 document.querySelector('.startEditing').addEventListener('click', openLevel)
 
+document.querySelector('.articleCategoryInput').addEventListener('click', openLevel)
+
 document.querySelector('.articleNameInput').addEventListener('input', e => {
     document.querySelector('.articleNameLinkInput').value = replaceCharacters(e.target.value)
 })

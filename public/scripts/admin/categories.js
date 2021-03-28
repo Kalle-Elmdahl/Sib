@@ -117,7 +117,7 @@ function move(dir) {
 }
 
 async function save() {
-    const categories = [...document.querySelectorAll('.categories > .parent')].map(mapCategory)
+    const categories = [...document.querySelectorAll('.categories > .parent')].map(category => mapCategory(category, ""))
     console.log(categories)
     let promise = await fetch('/administrera/categories/update', {
         method: 'POST',
@@ -135,14 +135,21 @@ async function save() {
     alert(response.message)
 }
 
-function mapCategory(category) {
+function mapCategory(category, link) {
+    const name = category.querySelector('.name').innerText
+    link = link === "" ? replaceCharacters(name) : `${link}/${replaceCharacters(name)}`
     return {
-        name: category.querySelector('.name').innerText,
+        name: name,
+        link: link,
         id: category.id,
         description: category.dataset.description,
-        subCategories: [...category.children[1].children].map(mapCategory),
+        subCategories: [...category.children[1].children].map(category => mapCategory(category, link)),
         new: category.dataset.new == "true"
     }
+}
+
+function replaceCharacters(name) {
+    return encodeURIComponent(name.toLowerCase().replace(/ä/g, 'a').replace(/å/g, 'a').replace(/ö/g, 'o').replace(/\s/g, '-'))
 }
 
 document.querySelector('.save').addEventListener('click', save)

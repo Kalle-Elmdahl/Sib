@@ -69,7 +69,7 @@ router.post('/update', async (req, res) => {
         req.session.messages.push({
             type: "error",
             text: "Hittade inte objektet du försökte uppdatera"
-        });
+        })
     } else {
         for (let key in target) {
             if (formData.hasOwnProperty(key)) {
@@ -119,7 +119,7 @@ router.post('/update', async (req, res) => {
             });
         }
     }
-
+    
     if(req.query.redirect) {
         res.redirect(req.query.redirect)
     } else {

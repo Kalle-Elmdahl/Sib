@@ -1,10 +1,6 @@
-.container {
-    max-width: 800px;
-    margin:0 auto;
-}
-
 .input {
-    width: 100%;
+    width: 90%;
+    max-width:400px;
     position: relative;
     font-family: sans-serif;
     background: var(--clr-box);
@@ -12,7 +8,7 @@
     border-radius: 4px;
     overflow: hidden;
     display:block;
-    margin:10px 0;
+    margin:30px auto;
 }
 
 .input input {
@@ -98,13 +94,8 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
     font-weight: normal;
 }
 
-.box {
-    color:#000;
-    font-weight: normal; 
-    text-align: left;
-    background: var(--clr-box);
-    box-shadow: var(--shadow);
-    padding:1px 30px 30px 30px;
+.articleList {
+    justify-content: center;
 }
 
 .container > .box + .box {

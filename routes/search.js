@@ -1,13 +1,24 @@
-const { query } = require('express')
 const express = require('express')
 const article = require('../models/article.js')
-const category = require('../models/category.js')
+const {category, subCategory} = require('../models/category.js')
 const Image = require('../models/image.js')
 const router = express.Router()
 
 
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
+    if(!req.query.query || req.query.query.length < 3) {
+        return res.render('pages/search', {
+            queries: [],
+            searchValue: req.query.query || "",
+            searchedCategories: [],
+            searchedArticles: [],
+            searchedImages: [],
+            title: `Sök`,
+            styles: ['search'],
+            deep: false,
+        })
+    }
     const filterRegexes = req.query.query.split(" ").map(query => new RegExp(query, 'i'))
     const categoryAndArray = filterRegexes.map(keyword => ({name: keyword}))
     const articleAndArrayTitle = filterRegexes.map(keyword => ({name: keyword}))
@@ -19,30 +30,22 @@ router.get('/', async (req, res, next) => {
     const imageAndArray = filterRegexes.map(keyword => ({photographer: keyword}))
 
     const categories = await category.find({$and: categoryAndArray}).sort({order: -1})
+    const subCategories = await subCategory.find({$and: categoryAndArray}).sort({order: -1})
 
-    let matchingArticles = [], matchingTitleArticles, matchingTagsArticles, matchingDescriptionArticles;
-    let deep = false
-    if(req.query.deep === "true") {
-        matchingArticles = await article.find({
-            $or: [
-                {$and: articleAndArrayTitle}, 
-                {tags: {$in: filterRegexes}},
-                {$and: articleAndArrayDescription},
-                {$and: articleAndArrayContent}
-            ],
-            private: false
-        }).sort({date: -1})
-        deep = true
-    } else {
-        matchingArticles = await article.find({
+    let matchingArticles = await article
+        .find({
             $or: [
                 {$and: articleAndArrayTitle}, 
                 {tags: {$in: filterRegexes}},
                 {$and: articleAndArrayDescription},
             ],
             private: false
-        }).sort({date: -1})
-    }
+        })
+        .sort({date: -1})
+        .select("name link categoryLink description date image tags")
+        .lean()
+
+    let matchingTitleArticles, matchingTagsArticles, matchingDescriptionArticles;
       
     [matchingTitleArticles, matchingArticles] = partition(matchingArticles, article => {
         return filterRegexes.every(filterRegex => article.name.match(filterRegex))
@@ -57,23 +60,17 @@ router.get('/', async (req, res, next) => {
             return article.description.match(filterRegex) !== null
         })
     });
-
-    let deepArticles = []
-    if(req.query.deep === "true") {
-        deepArticles = [...matchingArticles]
-    }
     
     const images = await Image.find({$and: imageAndArray}).sort({date: -1})
 
     res.render('pages/search', {
         queries: req.query.query.split(" "),
         searchValue: req.query.query,
-        searchedCategories: categories,
-        searchedArticles: [...matchingTitleArticles, ...matchingTagsArticles, ...matchingDescriptionArticles, ...deepArticles],
+        searchedCategories: [...categories, ...subCategories],
+        searchedArticles: [...matchingTitleArticles, ...matchingTagsArticles, ...matchingDescriptionArticles],
         searchedImages: images,
         title: `Sökresultat: ${req.query.query}`,
-        styles: ['search'],
-        deep: deep,
+        styles: ['search', 'partials/articlebox'],
     })
 })
 

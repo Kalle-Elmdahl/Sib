@@ -47,7 +47,7 @@ app.use(express.static('bilder', {
     },
 }));
 
-app.use(bodyParser.urlencoded({limit: '10mb', extended: false}))
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
 app.use(bodyParser.json())
 
 app.use(generateBasicVariables)
@@ -110,10 +110,19 @@ async function auth(req, res, next) {
     next()
 }
 
+function populateCategories(category, articles) {
+    if(category.subCategories.length) 
+        category.subCategories = category.subCategories.map(s => populateCategories(s, articles))
+    return {
+        ...category,
+        articles: articles.filter(article => article.categoryLink == category.link)
+    }
+}
+
 async function generateBasicVariables(req, res, next)  {
-    const categories = await category.find().sort({order: 1}).lean()
-    res.locals.articleNames = await article.find({private: false}).sort({date: -1}).select({name: 1, link: 1, category: 1}).lean()
-    res.locals.categories = categories.map(category => ({name: category.name, link: category.link}))
+    const categories = await category.find().sort({order: 1}).populate({path: 'subCategories'}).select('name link').lean()
+    const articles = await article.find({private: false}).sort({date: -1}).select("name link categoryLink").lean()
+    res.locals.categories = categories.map(c => populateCategories(c, articles))
 
     res.locals.url = req.protocol + '://' + req.get('host') + req.originalUrl;
     res.locals.productionUrl = PRODUCTION_DOMAIN;
@@ -134,10 +143,10 @@ app.get('/', async (req, res) => {
 });
 
 app.use('/uppfodarlista', uppfodarRouter)
-app.use('/', seoRouter)
 app.use('/administrera', adminRouter)
-app.use('/', articleRouter)
 app.use('/search', searchRouter)
+app.use('/', seoRouter)
+app.use('/', articleRouter)
 
 app.post('/adminauthentication', async (req, res) => {
     try {

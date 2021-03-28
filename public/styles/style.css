@@ -72,7 +72,7 @@
 }
   
 #navInput:checked ~ .navHamburger .hamburger-c::before, #navInput:checked ~ .navHamburger .hamburger-c::after {
-    width: 30px;
+    width: 20px;
     transition: width 0.5s cubic-bezier(0.13, 0.67, 0.32, 0.96) 0.2s;
 }
   
@@ -177,134 +177,127 @@ nav {
     max-width:80%;
     width:300px;
     height:100vh;
-    padding:50px 0 150px 0;
     transform:scale(0, 1);
-    transition: transform .3s var(--cubic);
+    transition: transform .3s var(--cubic) .1s;
     transform-origin: right center;
     overflow-y: auto;
 }
 
 .navigationSwitch:checked ~ nav {
     transform: scale(1, 1);
-}
-
-
-
-.navigationSwitch:checked ~ .navHamburger::after {
-    content:'';
-    position: fixed;
-    top: 0;
-    right: 0;
-    height:var(--header-height);
-    width:70px;
-    background: var(--clr-box);
-    z-index:-1;
-}
-
-nav a {
-    color:var(--clr-text);
-    font-size:16px;
-    font-weight:bold;
-    padding:0 20px;
-    border-bottom: 1px solid #ccc;
-    display:block;
-    width:100%;
-    text-align: left;
-    height: 60px;
-    display: flex;
-    align-items: center;
-}
-
-nav > a, nav > div {
-    opacity: 0;
-    transition: opacity .1s var(--cubic);
+    transition: transform .3s var(--cubic);
 }
 
 nav a.active {
     font-weight: bold;
 }
 
-.navigationSwitch:checked ~ nav > a, .navigationSwitch:checked ~ nav > div {
-    transition: opacity .3s var(--cubic) .3s;
+nav .top {
+    background: #f2f2f2;
+    padding:5px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    transition: opacity .1s linear;
+}
+
+.navigationSwitch:checked ~ nav .top {
     opacity: 1;
+    transition: opacity .1s linear .2s;
 }
 
-.dropParent {
-    display:flex;
-    align-items: center;
-    cursor: pointer;
-    flex-wrap: wrap;
-    width: 100%;
+nav .top button, nav .top .space {
+    width:34px
 }
 
-.dropParent > input {
-    display:none;
+nav .top button {
+    border:none;
+    background: none;
+    text-align: left;
+    height: 34px;
+    padding:2px;
+    border-radius: 50%;
+    visibility: hidden;
 }
 
-.dropParent > a {
-    width:80%;
+nav .top button.visible {
+    visibility: visible;
 }
 
-.dropParent > label {
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    width: 20%;
-    border-bottom: 1px solid #ccc;
+nav .top button:focus {
+    outline:none;
+    border:2px solid var(--clr-prim);
+    padding: 0;
+}
+
+nav .scrollable {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100vh - 44px);
     position: relative;
-    height:60px;
+    opacity: 0;
+    transition: opacity .1s linear;
 }
 
-.dropParent > label::before {
-    content:'';
-    position: absolute;
-    top:50%;
-    left:0;
-    width: 1px;
-    height: 20px;
-    transform: translateY(-10px);
-    background-color: #ccc;
+.navigationSwitch:checked ~ nav .scrollable  {
+    opacity: 1;
+    transition: opacity .1s linear .2s;
 }
 
-.dropParent > label > svg {
-    width:20px;
-    height:20px;
-    margin-left:5px;
-    transform: rotate(-90deg);
-    transition: transform .3s ease;
-}
-
-.dropDown {
+nav .list {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    padding-left:20px;
-    height:0;
+    align-items: flex-start;
 }
 
-.dropDown a {
-    color: var(--txt-clr);
-    display:flex;
-    padding:10px;
-    width:100%;
-    opacity:0;
-    pointer-events: none;
+nav h3 {
+    margin-top:20px;
+}
+
+nav .list a {
+    color:var(--clr-text);
+    margin:10px 0;
     font-weight: normal;
 }
 
-.dropCheck:checked ~ label svg {
-    transform: rotate(90deg);
+nav .list .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
-.dropCheck:checked ~ .dropDown a {
-    opacity:1;
-    transition:opacity .3s var(--cubic);
-    pointer-events: all;
+nav .list .row button {
+    padding: 0 20px;
+    border:none;
+    border-left:1px solid var(--clr-text);
+    height: 24px;
+    background: none;
 }
 
-.dropCheck:checked ~ .dropDown {
-    height:auto;
+nav .list .row button:focus {outline:none}
+nav .list .row button:focus svg {
+    transform: translateX(5px);
+}
+
+nav .pages > div {
+    position: absolute;
+    top:0;
+    left:0;
+    transform: translateX(100%);
+    width: 100%;
+    min-height: 100%;
+    padding:0 20px 150px;
+    background: var(--clr-box);
+}
+
+nav .pages > div.visible {
+    transform: translateX(0);
+}
+
+nav .pages > div.passed {
+    display:none;
 }
 
 .message {
@@ -422,7 +415,11 @@ footer form:focus-within button {
     color:#666;
 }
 
-@media (min-width: 1000px) {
+.desktopNav {
+    display:none;
+}
+
+@media (min-width: 800px) {
     header {
         transition: background-color .3s var(--cubic);
         background-color: rgba(255,255,255,.75);
@@ -431,99 +428,30 @@ footer form:focus-within button {
     header:hover {
         background-color: rgba(255,255,255,1);
     }
-
-    .navDrop {
-        display:none;
-    }
     
-    nav {
-        background: none;
-        position: static;
-        max-width:unset;
-        width:auto;
-        height:100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        padding:0;
-        transform:scale(1, 1);
-        overflow: visible;
-    }
-    
-    nav a, nav div {
-        font-size:14px;
-        font-weight:normal;
-        margin:0 20px;
-        opacity: 1;
-        padding:0;
-        border-bottom: none;
-        width:auto !important;
-        display: flex;
-        align-items: center;
-        height: 100%;
+    .desktopNav {
+        display:flex;
     }
 
-    nav .dropParent {
-        flex-wrap: nowrap;
-        text-align: left;
-        position: relative;
-    }
-
-    nav .dropParent a {
-        margin:0;
-    }
-
-    nav .dropDown a:hover {
-        background: #eee;
-    }
-
-    nav .dropParent label {
-        width:20px;
-        border:none;
-        padding:0;
-        margin-left:5px;
-    }
-
-    nav .dropParent label::before {
-        display:none;
-    }
-    
-    .dropCheck:checked ~ label svg {
-        transform: rotate(-90deg);
-    }
-
-    nav .dropDown {
-        opacity: 0;
-        pointer-events: none;
-        height: auto;
-        margin:0;
-        background: #fff;
-        padding:0;
-        align-items: flex-start;
-        border-bottom-left-radius: 4px;
-        border-bottom-right-radius: 4px;
-        box-shadow: var(--shadow);
-    }
-
-    nav .dropDown a {
-        opacity: 1;
-        white-space: nowrap;
-        pointer-events: inherit;
-    }
-
-    .dropParent:hover > .dropDown {
-        opacity: 1;
-        pointer-events: all;
-    }
-
-    nav .dropDown {
-        position: absolute;
-        top:100%;
-        left:-10px;
-        display:block;
+    .desktopNav a, .desktopNav label {
+        font-weight: normal;
+        color:var(--clr-text);
+        margin:0 10px;
     }
 
     .navHamburger {
+        display:none;
+    }
+
+    nav .pages .main .routes {
+        display:none;
+    }
+
+    nav .top {
+        padding:5px 12px;
+    }
+
+    nav .top .navHeader {
         display:none;
     }
 

@@ -1,4 +1,10 @@
-<h1><%=category%></h1>
-<p style="max-width: 700px; margin:0 auto; padding:0 3%; text-align: left;"><%-desc%></p>
-<h2>Läs mer</h2>
+<h1><%=category.name%></h1>
+<p style="max-width: 700px; margin:0 auto; padding:0 3%; text-align: left;"><%- category.description %></p>
+<% if(category.subCategories.length) { %>
+    <h2>Underkategorier</h2>
+    <% category.subCategories.forEach(sub => { %>
+        <a href="<%=sub.link%>"><%= sub.name %></a><br>
+    <% }); %>
+<% } %>
+<h2>Artiklar</h2>
 <%- include('../partials/articlepreview', {articles: articles}); %>

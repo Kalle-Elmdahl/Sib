@@ -46,19 +46,45 @@
             <img src="/resources/logo.svg" alt="Logo" width="20px" height="20px">
             <h3>SibiriskaKatten.se</h3>
         </a>
-        <input type="checkbox" class="navigationSwitch" id="navInput">
-        <label class="navDrop" for="navInput"></label>
-        <nav>
-            <a href="/">Hem</a>
-            <% categories.forEach(category => { %>
-                <a href="/<%=category.link%>"><%=category.name%></a>
-            <% }) %>
-            <a href="/uppfodarlista">Uppfödarlista</a>
-        </nav>
-        <label class="navHamburger" for="navInput">
-            <div class="hamburger"></div>
-            <div class="hamburger-c"></div>
-        </label>
+        <div class="navigation">
+            <input type="checkbox" class="navigationSwitch" id="navInput">
+            <label class="navDrop" for="navInput"></label>
+            <div class="desktopNav">
+                <a href="/">Hem</a>
+                <a href="/uppfodarlista">Uppfödarlista</a>
+                <label for="navInput">Hitta artiklar</label>
+            </div>
+            <nav>
+                <div class="top">
+                    <button class="back">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 0 24 24" width="30"><path d="M14.71 15.88L10.83 12l3.88-3.88c.39-.39.39-1.02 0-1.41-.39-.39-1.02-.39-1.41 0L8.71 11.3c-.39.39-.39 1.02 0 1.41l4.59 4.59c.39.39 1.02.39 1.41 0 .38-.39.39-1.03 0-1.42z"></path></svg>
+                    </button>
+                    <span class="navHeader">Meny</span>
+                    <div class="space"></div>
+                </div>
+                <div class="scrollable pages">
+                    <div class="main visible" data-name="Meny">
+                        <div class="routes list">
+                            <h3>Sidor</h3>
+                            <a href="/">Hem</a>
+                            <a href="/uppfodarlista">Uppfödarlista</a>
+                        </div>
+                        <div class="categories list">
+                            <h3>Kategorier</h3>
+                            <% categories.forEach(category => { %>
+                                <div class="row">
+                                    <a href="/<%=category.link%>"><%=category.name%></a>
+                                    <button data-id="<%=category._id%>"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M9.29 15.88L13.17 12 9.29 8.12c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3c-.39.39-1.02.39-1.41 0-.38-.39-.39-1.03 0-1.42z"/></svg></button>
+                                </div>
+                            <% }) %>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <label class="navHamburger" for="navInput">
+                <div class="hamburger"></div>
+                <div class="hamburger-c"></div>
+            </label>
     </header>
     <% if(typeof messages !== "undefined") { %>
         <%- include('../partials/informer', {messages: messages}); %>
@@ -66,4 +92,11 @@
     <div class="container">
         <%- body %>
     </div>
+    <template class="navRowTemplate">
+        <div class="row">
+            <a></a>
+            <button><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M9.29 15.88L13.17 12 9.29 8.12c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3c-.39.39-1.02.39-1.41 0-.38-.39-.39-1.03 0-1.42z"/></svg></button>
+        </div>
+    </template>
+    <script>const categories = <%-JSON.stringify(categories)%></script>
 </html>
