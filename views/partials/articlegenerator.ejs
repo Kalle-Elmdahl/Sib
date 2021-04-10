@@ -1,3 +1,4 @@
+<% const replaceCharacters = name => encodeURIComponent(name.toLowerCase().replace(/[å,ä]/g, 'a').replace(/ö/g, 'o').replace(/\s/g, '-')) %>
 <% content.forEach(component => { %>
     <section>
         <% if(component.tag === 'p') { %>
@@ -15,7 +16,7 @@
                 <%- component.content %>
             </table>
         <% } else { %>
-            <<%=component.tag%> class="h"><%=component.content%></<%=component.tag%>>
+            <<%=component.tag%> id="<%= replaceCharacters(component.content) %>" class="h"><%=component.content%></<%=component.tag%>>
         <% } %>
     </section>
 <% }) %>

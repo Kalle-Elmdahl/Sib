@@ -69,17 +69,21 @@ class Paragraph extends Component {
     }
 
     startLinking() {
-        document.querySelector('.linkInput').classList.add('visible')
+        document.querySelector('.linkInput').classList.toggle('visible')
+        if(!document.querySelector('.linkInput').classList.contains('visible')) return
         this.savedSelection = saveSelection(this.paragraph)
+        displayAllHeadings()
     }
 
     linkSelected() {
         document.querySelector('.linkInput').classList.remove('visible')
         restoreSelection(this.paragraph, this.savedSelection)
         const link = document.querySelector('.linkText').value
-        var selectedText = document.getSelection().toString()
-        document.execCommand('insertHTML', false, '<a href="' + link + '" target="_blank">' + selectedText + '</a>')
         document.querySelector('.linkText').value = ""
+        var selectedText = document.getSelection().toString()
+        if(link.charAt(0) === "#") // The link is either on the same or an external page so target blank differs
+            return document.execCommand('insertHTML', false, `<a href="${link}">${selectedText}</a>`)
+        document.execCommand('insertHTML', false, `<a href="${link}" target="_blank">${selectedText}</a>`)   
     }
 }
 
@@ -131,6 +135,27 @@ function removePasteFormatting(e) {
     }
 
     e.preventDefault();
+}
+
+function displayAllHeadings() {
+    const headingListParent = document.querySelector('.linkableHeadings')
+    headingListParent.innerHTML = ""
+    document.querySelectorAll('.h').forEach(heading => {
+        const correspondingHeading = document.createElement('h4')
+        correspondingHeading.innerText = heading.innerText
+        correspondingHeading.id = heading.id
+        headingListParent.appendChild(correspondingHeading)
+
+        correspondingHeading.addEventListener('click', linkToHeading)
+    })
+}
+
+function linkToHeading(e) {
+    document.querySelector('.linkableHeadings').childNodes.forEach(heading => {
+        heading.removeEventListener('click', linkToHeading)
+    })
+    document.querySelector('.linkText').value = "#" + e.currentTarget.id
+    document.querySelector('.paragraphLink').click()
 }
 
 export {Paragraph}

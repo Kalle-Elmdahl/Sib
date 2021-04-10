@@ -42,13 +42,15 @@ document.querySelector('.duplicateComponent').addEventListener('click', e => {
                     element.innerHTML = component.elements[index].innerHTML;
                 }
 
+                if(element.id)
+                    element.id = component.elements[index].id
+
                 if(element.localName !== component.elements[index].localName) {
                     //Heading with differentSize
                     newComponent.editHeadingSize()
                 }
             })
-
-            newComponent.append(component.parentElement, true)
+            newComponent.append(component, true)
             components.splice(components.indexOf(component), 0, newComponent);
             component.deSelect()
             break;
@@ -105,6 +107,10 @@ document.querySelector('.saveButtonAndLeave').addEventListener('click', e => sav
 
 document.querySelector('.savePopupButton').addEventListener('click', e => save(e, false))
 document.querySelector('.savePopupButtonAndLeave').addEventListener('click', e => save(e, true))
+
+window.addEventListener('keydown', e => {
+    if(e.key === "s" && (e.metaKey || e.ctrlKey)) save(e, false)
+})
 
 
 // SAVE POPUP

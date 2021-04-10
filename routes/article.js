@@ -4,130 +4,132 @@ const {category, subCategory} = require('../models/category.js')
 const Image = require('../models/image.js')
 const router = express.Router()
 
-router.get('/*/article/:article', async (req, res) => {
+router.get('/*/article/:article', async (req, res, next) => {
 
     const wantedArticle =  await article.findOne({
         categoryLink: req.params[0], 
         link: encodeURIComponent(req.params.article)
     })
 
-    if(wantedArticle == null) return res.send("hittade inte artikeln")
+    if(wantedArticle === null) {
+        res.locals.messages.push({
+            type: "error",
+            text: "Hittade inte artikeln"
+        })
+        return next()
+    } 
 
     const coverImage = await Image.findOne({original: wantedArticle.image})
 
-    if(coverImage === null) return res.send("Hittade inte omslagsbild")
+    if(coverImage === null) {
+        res.status(500)
+        res.locals.messages.push({
+            type: "error",
+            text: "Ett problem med artikeln uppstod (error-id 5001)"
+        })
+        return next()
+    }
 
     wantedArticle.photographer = coverImage.photographer;
 
     for await(const element of wantedArticle.content) {
         if(element.tag === 'img') {
             const image = await Image.findOne({original: element.content})
-            if(image === null) return res.send("Bilder i artikeln hittades inte")
+            if(image === null) {
+                res.status(500)
+                res.locals.messages.push({
+                    type: "error",
+                    text: "Ett problem med artikeln uppstod (error-id 5002)"
+                })
+                return next()
+            }
             element.photographer = image.photographer;
         }
     }
 
-    res.render('pages/article', {
-        title: wantedArticle.name,
-        styles: ['article'],
-        article: wantedArticle,
-        SEO: {
-            image: wantedArticle.image,
-            keywords: wantedArticle.tags.join(','),
-            description: wantedArticle.description
-        }
-    })
+    try {
+        res.render('pages/article', {
+            title: wantedArticle.name,
+            styles: ['article'],
+            article: wantedArticle,
+            SEO: {
+                image: wantedArticle.image,
+                keywords: wantedArticle.tags.join(','),
+                description: wantedArticle.description
+            }
+        })
+    } catch(e) {
+        res.status(500)
+        res.locals.messages.push({
+            type: "error",
+            text: "Ett problem med artikeln uppstod (error-id 5003)" + e
+        })
+        return next()
+    }
 })
 
 
 router.get('/*', async (req, res, next) => {
+    // Check if user is looking for a non-existing article
+    if(req.params['0'].split('/').some(param => param === "article")) return next()
 
+    // Use correct schema
+    const schema = req.params[0].split('/').length > 1 ? subCategory : category
+    
     // Find the category
-    let wantedCategory
-    if(req.params[0].split('/').length > 1) {
-
-        wantedCategory = await subCategory
-            .findOne({link: req.params[0]})
-            .populate({path: 'subCategories'})
-            .select('name description subCategories')
-            .lean()
-    } else {
-        wantedCategory = await category
-            .findOne({link: req.params[0]})
-            .populate({path: 'subCategories'})
-            .select('name description subCategories')
-            .lean()
-    }
+    const wantedCategory = await schema
+        .findOne({link: req.params[0]})
+        .populate({path: 'subCategories'})
+        .select('name description subCategories')
+        .lean()
 
     // Make sure the category was found
-    if(wantedCategory == null) return next()
+    if(wantedCategory == null) {
+        res.locals.messages.push({
+            type: "error",
+            text: "Hittade ingen kategori med det namnet"
+        })
+        return next()
+    }
     
 
     // Find the category's articles
-    const articles =  await article
-        .find({
-            categoryLink: req.params[0],
-            private: false
+    let articles
+    try {
+        articles =  await article
+            .find({
+                categoryLink: req.params[0],
+                private: false
+            })
+            .sort({date: -1})
+            .select('name link categoryLink description date image')
+            .lean()
+    } catch(e) {
+        res.status(500)
+        res.locals.messages.push({
+            type: "error",
+            text: "Ett problem med kategorin uppstod (error-id 5001)" + e
         })
-        .sort({date: -1})
-        .select('name link categoryLink description date image')
-        .lean()
+        return next()
+    }
 
     // Render
-    res.render('pages/category', {
-        title: wantedCategory.name,
-        category: wantedCategory,
-        styles: ['category', 'partials/articlebox'],
-        articles: articles,
-        baseLink: req.params[0]
-    })
-})
-
-
-/* router.get('/:category', async (req, res, next) => {
-    const correctCategory = await category.findOne({link: req.params.category})
-    if(correctCategory == null) return next()
-    const articles = await article.find({categoryLink: correctCategory.link, private: false}).sort({date: -1})
-    res.render('pages/category', {
-        title: correctCategory.name,
-        category: correctCategory.name,
-        styles: ['category', 'partials/articlebox'],
-        articles: articles,
-        desc: correctCategory.description
-    })
-});
-
-router.get('/:category/:articlename', async (req, res, next) => {
-    const selectedArticle =  await article.findOne({categoryLink: req.params.category, link: encodeURIComponent(req.params.articlename)})
-    if(selectedArticle && selectedArticle !== {}) {
-        try {
-            const coverImage = await Image.findOne({original: selectedArticle.image})
-            if(coverImage === null) return res.send("Bilder i artikeln är korrupta")
-            selectedArticle.photographer = coverImage.photographer;
-            for(const element of selectedArticle.content) {
-                if(element.tag === 'img') {
-                    const image = await Image.findOne({original: element.content})
-                    if(image === null) return res.send("Bilder i artikeln är korrupta")
-                    element.photographer = image.photographer;
-                }
-            }
-            
-            res.render('pages/article', {
-                title: selectedArticle.name,
-                styles: ['article'],
-                article: selectedArticle,
-                SEO: {
-                    image: selectedArticle.image,
-                    keywords: selectedArticle.tags.join(','),
-                    description: selectedArticle.description
-                }
-            })
-        } catch(e) {
-            res.send('Någonting är fel med artikeln')
-        }
-    } else {
-        next();
+    try {
+        res.render('pages/category', {
+            title: wantedCategory.name,
+            category: wantedCategory,
+            styles: ['category', 'partials/articlebox'],
+            articles: articles,
+            baseLink: req.params[0]
+        }) 
+    } catch (e) {
+        res.status(500)
+        res.locals.messages.push({
+            type: "error",
+            text: "Ett problem med kategorin uppstod (error-id 5002)" + e
+        })
+        return next()
     }
-})
- */
+}) 
+
 module.exports = router

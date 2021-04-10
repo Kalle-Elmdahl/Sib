@@ -128,6 +128,7 @@ async function generateBasicVariables(req, res, next)  {
     res.locals.productionUrl = PRODUCTION_DOMAIN;
 
     if(req.session.messages) res.locals.messages = req.session.messages
+    else res.locals.messages = []
     req.session.messages = []
     
     next()
@@ -177,7 +178,16 @@ app.post('/adminauthentication', async (req, res) => {
 })
 
 app.get('*', (req, res) => {
-    res.sendStatus(404)
+    if(res.statusCode === 200) {
+        return res.render('pages/errorpage', {
+            message: 'Hittade inte sidan du letade efter',
+            layout: false
+        })
+    }
+    res.render('pages/errorpage', {
+        message: 'Problem med sidan',
+        layout: false
+    })
 })
 
 app.listen(3000)

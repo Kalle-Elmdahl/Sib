@@ -42,7 +42,7 @@
                     <label for="articleCoverImageButton">Omslagsbild</label>
                     <button type="button" class="articleCoverImageButton prim column" id="articleCoverImageButton"><span>Välj bild</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="18px" height="18px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M21 3H3C2 3 1 4 1 5v14c0 1.1.9 2 2 2h18c1 0 2-1 2-2V5c0-1-1-2-2-2zM5.63 16.19l2.49-3.2c.2-.25.58-.26.78-.01l2.1 2.53 3.1-3.99c.2-.26.6-.26.8.01l3.51 4.68c.25.33.01.8-.4.8H6.02c-.41-.01-.65-.49-.39-.82z"/></svg></button>
                     <input type="text" name="image" class="coverImageInput" style="display: none;" value="<%=article.image%>">
-                    <img src="<%=productionUrl + article.image%>" class="coverImagePreview">
+                    <img src="<%=article.image ? productionUrl + article.image : ""%>" class="coverImagePreview">
                 </div>
     
                 <button type="button" data-targetclass=".editorLevel" class="startEditing prim column"><span>Bygg artikeln</span><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="#fff"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16.01 11H5c-.55 0-1 .45-1 1s.45 1 1 1h11.01v1.79c0 .45.54.67.85.35l2.78-2.79c.19-.2.19-.51 0-.71l-2.78-2.79c-.31-.32-.85-.09-.85.35V11z"/></svg></button>
@@ -117,6 +117,8 @@
                 <label for="linkText">Skriv länken här</label>
                 <input type="text" class="linkText" id="linkText">
                 <button class="paragraphLink prim column"><span>Länka!</span><svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 24 24" width="18"><path d="M0 0h24v24H0V0z" fill="none"/><path fill="#fff" d="M17 7h-3c-.55 0-1 .45-1 1s.45 1 1 1h3c1.65 0 3 1.35 3 3s-1.35 3-3 3h-3c-.55 0-1 .45-1 1s.45 1 1 1h3c2.76 0 5-2.24 5-5s-2.24-5-5-5zm-9 5c0 .55.45 1 1 1h6c.55 0 1-.45 1-1s-.45-1-1-1H9c-.55 0-1 .45-1 1zm2 3H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h3c.55 0 1-.45 1-1s-.45-1-1-1H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h3c.55 0 1-.45 1-1s-.45-1-1-1z"/></svg></button>
+                <p>Eller länka till: </p>
+                <div class="linkableHeadings"></div>
             </div>
         </div>
 
@@ -140,7 +142,7 @@
     </div>
 </aside>
 <div class="articleCol">
-    <h1 class="editTitle"><%= update ? "Uppdatera" : "Skapa" %> artikel</h1>
+    <h1 class="editTitle">Redigera artikel</h1>
     <div class="movingComponent">
         <svg class="componentImage"></svg>
         <h3>Heading</h3>

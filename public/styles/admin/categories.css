@@ -4,12 +4,12 @@
     justify-content: center;
 }
 
-.categories {
+.editCategories {
     flex-grow: 1;
     margin-right:50px;
 }
 
-.categories > .parent {
+.editCategories > .parent {
     margin:10px 0;
 }
 

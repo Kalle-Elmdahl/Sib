@@ -200,6 +200,7 @@ function load() {
                 case 'h':
                     newComponent = new Heading()
                     newComponent.heading.innerText = component.content
+                    newComponent.heading.id = replaceCharacters(component.content)
                     newComponent.editHeadingSize(Number(content[index].tag.substring(1)))
                     break;
                 case 'p':
@@ -270,7 +271,7 @@ function changeCategory(e) {
 initCategories()
 
 function replaceCharacters(name) {
-    return encodeURIComponent(name.toLowerCase().replace(/ä/g, 'a').replace(/å/g, 'a').replace(/ö/g, 'o').replace(/\s/g, '-'))
+    return encodeURIComponent(name.toLowerCase().replace(/[å,ä]/g, 'a').replace(/ö/g, 'o').replace(/\s/g, '-'))
 }
 
 export {replaceCharacters, load, save, restoreSelection, saveSelection, getElementFromString, selectElement, sleep, deselectAll, pauseEvent, openLevel};

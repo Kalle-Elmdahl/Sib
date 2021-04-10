@@ -9,7 +9,7 @@ function* getId() {
 const iterator = getId();
 let deletions = []
 
-const categoriesElement = document.querySelector('.categories')
+const categoriesElement = document.querySelector('.editCategories')
 let currentlyEdited;
 
 function loadCategories(categories, parent) {
@@ -21,14 +21,14 @@ function loadCategories(categories, parent) {
     })
 }
 
-loadCategories(categories, categoriesElement)
+loadCategories(parentCategories, categoriesElement)
 
 function generateCategoryElement({name, _id: id, description}) {
     const template = document.querySelector('template')
     const category = template.content.firstElementChild.cloneNode(true)
     category.querySelector('.name').innerText = name;
-    category.id = id
-    category.dataset.description = description
+    category.dataset.id = id
+    category.dataset.description = description || ""
     category.querySelector('.edit').dataset.id = id
     category.querySelector('.remove').dataset.id = id
 
@@ -69,7 +69,7 @@ function deselectCategory() {
 }
 
 function editCategory(e) {
-    const parent = document.getElementById(e.currentTarget.dataset.id)
+    const parent = categoriesElement.querySelector(`[data-id="${e.currentTarget.dataset.id}"]`)
     if(parent === currentlyEdited) return deselectCategory()
     if(currentlyEdited) deselectCategory()
     selectCategory(parent)
@@ -82,14 +82,14 @@ function updateDescription() {
 document.querySelector('.saveDescription').addEventListener('click', updateDescription)
 
 function removeCategory(e) {
-    const parent = document.getElementById(e.currentTarget.dataset.id)
+    const parent = categoriesElement.querySelector(`[data-id="${e.currentTarget.dataset.id}"]`)
     currentlyEdited = parent
     deselectCategory()
     if(!parent.dataset.new) {
-        deletions.push(parent.id)
+        deletions.push(parent.dataset.id)
         const subCategories = [...parent.querySelectorAll('.parent')]
             .filter(category => category.dataset.new != "true")
-            .map(category => category.id)
+            .map(category => category.dataset.id)
         deletions = [...deletions, ...subCategories]
     }
     parent.remove()
@@ -117,8 +117,7 @@ function move(dir) {
 }
 
 async function save() {
-    const categories = [...document.querySelectorAll('.categories > .parent')].map(category => mapCategory(category, ""))
-    console.log(categories)
+    const categories = [...document.querySelectorAll('.editCategories > .parent')].map(category => mapCategory(category, ""))
     let promise = await fetch('/administrera/categories/update', {
         method: 'POST',
         headers: {
@@ -141,7 +140,7 @@ function mapCategory(category, link) {
     return {
         name: name,
         link: link,
-        id: category.id,
+        id: category.dataset.id,
         description: category.dataset.description,
         subCategories: [...category.children[1].children].map(category => mapCategory(category, link)),
         new: category.dataset.new == "true"

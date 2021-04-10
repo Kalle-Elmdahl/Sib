@@ -294,6 +294,10 @@ aside {
     display:block;
 }
 
+.paragraphEditor .linkableHeadings h4 {
+    cursor: pointer;
+}
+
 /* Article Column */
 .articleCol {
     text-align: center;

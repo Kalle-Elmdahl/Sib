@@ -1,5 +1,5 @@
 <h1><%=category.name%></h1>
-<p style="max-width: 700px; margin:0 auto; padding:0 3%; text-align: left;"><%- category.description %></p>
+<div style="max-width: 700px; margin:0 auto; padding:0 3%; text-align: left; line-height: 26px;"><%- category.description %></div>
 <% if(category.subCategories.length) { %>
     <h2>Underkategorier</h2>
     <% category.subCategories.forEach(sub => { %>
