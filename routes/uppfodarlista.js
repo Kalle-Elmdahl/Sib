@@ -11,7 +11,12 @@ router.get('/', async (req, res) => {
         scripts: ['uppfodarlista'],
         styles: ['uppfodarlista'],
         people: result,
-        title: 'Uppfödarlista'
+        title: 'Uppfödarlista',
+        seo: {
+            image: "katt.jpg",
+            description: "Vi presenterar här vår uppfödarlista som skapats i Facebookgruppen ”Sibirisk katt”. Tanken med listan är att du som söker sibbe kan hitta seriösa uppfödare som säljer registrerade kattungar.",
+            keywords: "uppfödare, sibirisk katt, köpa katt, köpa sibir, katt till salu, till salu, seriös uppfödare, varning, oseriös uppfödare, tryggt köp av katt, bra uppfödare, frisk katt, köpa kattunge, kattunge, kattungar, köpa kattungar"
+        }
     })
 });
 

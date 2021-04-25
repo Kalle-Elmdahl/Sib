@@ -16,7 +16,6 @@ const seoRouter = require('./routes/seo.js')
 const searchRouter = require('./routes/search.js')
 const adminRouter = require('./routes/admin/admin.js')
 
-const FACEBOOK_ONLY_URLS = ['/uppfodarlista']
 const PRODUCTION_DOMAIN = 'https://sibiriskakatten.se'
 
 app.set('view engine', 'ejs')
@@ -70,23 +69,6 @@ function wwwRedirect(req, res, next) {
 };
 
 async function auth(req, res, next) {
-    try {
-        if(FACEBOOK_ONLY_URLS.some(url => url == req.url)) {
-            const facebookToken = req.cookies['facebookOnly']
-            const correctFacebookPass = await pass.findOne().lean()
-            if(!facebookToken || facebookToken != correctFacebookPass.password) {
-
-                return res.render('pages/wrongpass', {
-                    title: "Ej tillgänglig"
-                })
-            }
-        }
-    } catch(e) {
-        res.locals.messages.push({
-            type: 'error',
-            text: "Någonting gick fel mer inloggningen"
-        })
-    }
     try {
         const token = req.cookies['sibAdministrator']
         if(token) {
