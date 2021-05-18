@@ -6,3 +6,6 @@ pm2 stop 0 --watch
 
 IP:
 3.125.163.203
+
+SSH:
+ssh -L 27017:localhost:27017 centos@3.125.163.203
