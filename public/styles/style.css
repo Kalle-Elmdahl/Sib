@@ -398,6 +398,7 @@ footer form button {
     border-top-left-radius: 0;
     padding:0 20px;
     font-weight: bold;
+    margin:0;
 }
 
 footer form:focus-within button {
